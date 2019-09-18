@@ -3,8 +3,7 @@ package br.com.controledespesa.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
 
 @Entity(name = "FORMA_PAGAMENTO")
 public class FormaPagamento {
