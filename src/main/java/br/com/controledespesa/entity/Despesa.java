@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class Despesa {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	@ManyToOne(targetEntity = Categoria.class)

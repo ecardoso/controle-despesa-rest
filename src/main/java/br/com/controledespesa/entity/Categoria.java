@@ -13,7 +13,7 @@ public class Categoria implements Serializable {
 	private static final long serialVersionUID = 553406608346142661L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private String descricao;
 
