@@ -1,1 +1,1 @@
-web: java -Xmx384m -Xss512k -XX:+UseCompressedOops -jar target/*.jar
+web: java -jar -Dserver.port=$PORT target/controledespesa.war
