@@ -3,17 +3,23 @@ package br.com.controledespesa.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-//@Entity(name = "DESPESA")
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity(name = "DESPESA")
 public class Despesa {
 
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	//@ManyToOne(targetEntity = Categoria.class)
+	@ManyToOne(targetEntity = Categoria.class)
 	private Categoria categoria;
 
-	//@ManyToOne(targetEntity = Usuario.class)
+	@ManyToOne(targetEntity = Usuario.class)
 	private Usuario usuario;
 	private Date dataCompra;
 	private String descricao;

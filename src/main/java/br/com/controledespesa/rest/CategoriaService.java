@@ -1,6 +1,5 @@
 package br.com.controledespesa.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +19,10 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaDaoImpl categoriaDao;
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/categoriaLista")
 	public List<Categoria> lista() {
-		Categoria categoria = new Categoria();
-		categoria.setDescricao("teste 123");
-		List<Categoria> categorias = new ArrayList<Categoria>();
-		categorias.add(categoria);
-
-		return categorias;
-		//return (List<Categoria>) categoriaDao.findAll();
+		return (List<Categoria>) categoriaDao.findAll();
 	}
 
 	@RequestMapping(value = "/getCategoria")
