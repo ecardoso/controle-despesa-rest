@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class Despesa {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@ManyToOne(targetEntity = Categoria.class)
@@ -21,6 +21,10 @@ public class Despesa {
 
 	@ManyToOne(targetEntity = Usuario.class)
 	private Usuario usuario;
+
+	@ManyToOne(targetEntity = FormaPagamento.class)
+	private FormaPagamento formaPagamento;
+
 	private Date dataCompra;
 	private String descricao;
 	private BigDecimal valor;
@@ -93,6 +97,14 @@ public class Despesa {
 
 	public void setPago(boolean pago) {
 		this.pago = pago;
+	}
+
+	public FormaPagamento getFormaPagamento() {
+		return formaPagamento;
+	}
+
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
+		this.formaPagamento = formaPagamento;
 	}
 
 }
