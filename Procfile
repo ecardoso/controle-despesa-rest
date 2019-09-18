@@ -1,1 +1,1 @@
-web: java -jar -Dserver.port=$PORT target/controledespesa.war
+web: java -jar -Dserver.port=$PORT target/controledespesa.jar
