@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class CorsConfig {
 
-	private static final String[] ALLOWED_ORIGINS = { "http://localhost:9090", "http://localhost:8080" };
+	private static final String[] ALLOWED_ORIGINS = { "http://localhost:9090", "http://localhost:8080", "https://controle-despesa.herokuapp.com" };
 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
