@@ -42,29 +42,29 @@ public class GoogleAuthenticator {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Usuario getLogin(@RequestBody String token) {
-		try {
-			//TODO Corrigir
-			@SuppressWarnings("unused")
-			GoogleIdToken googleIdToken = new GoogleAuthenticator().verify(token);
-			//Usuario usuario = usuarioDao.getByProperty("email", googleIdToken.getPayload().getEmail());
+		//try {
+		//TODO Corrigir
+		//@SuppressWarnings("unused")
+		//GoogleIdToken googleIdToken = new GoogleAuthenticator().verify(token);
+		//Usuario usuario = usuarioDao.getByProperty("email", googleIdToken.getPayload().getEmail());
 
-			Usuario usuario = usuarioDao.getByProperty("email", "everton.ap.cardoso@gmail.com");
-			if (usuario == null) {
-				usuario = new Usuario();
-				//usuario.setEmail(googleIdToken.getPayload().getEmail());
-				usuario.setEmail("everton.ap.cardoso@gmail.com");
+		Usuario usuario = usuarioDao.getByProperty("email", "everton.ap.cardoso@gmail.com");
+		if (usuario == null) {
+			usuario = new Usuario();
+			//usuario.setEmail(googleIdToken.getPayload().getEmail());
+			usuario.setEmail("everton.ap.cardoso@gmail.com");
 
-				//String name = (String) googleIdToken.getPayload().get("name");
-				usuario.setNome("Everton Cardoso");
+			//String name = (String) googleIdToken.getPayload().get("name");
+			usuario.setNome("Everton Cardoso");
 
-				usuarioDao.save(usuario);
-			}
-
-			return usuario;
-		} catch (GeneralSecurityException | IOException e) {
-			e.printStackTrace();
-			return null;
+			usuarioDao.save(usuario);
 		}
+
+		return usuario;
+		//} catch (GeneralSecurityException | IOException e) {
+		//	e.printStackTrace();
+		//	return null;
+		//}
 	}
 
 	public ObjectNode extractUserNode(GoogleIdToken.Payload payload) {
