@@ -7,6 +7,6 @@ import br.com.controledespesa.entity.Despesa;
 
 public interface DespesaDao {
 
-	List<Despesa> findByMes(Date dataInicial, Date dataFinal);
+	List<Despesa> findByMes(String idUsuario, Date dataInicial, Date dataFinal);
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.controledespesa.TipoLoginEnum;
 import br.com.controledespesa.entity.Usuario;
 import br.com.controledespesa.repository.UsuarioDaoImpl;
 
@@ -31,6 +32,18 @@ public class UsuarioService implements Serializable {
 	@RequestMapping(value = "/getUsuario")
 	public Usuario getUsuario(@RequestParam(value = "id", defaultValue = "1") Long id) {
 		Usuario usuario = usuarioDao.getById(id);
+		return usuario;
+	}
+
+	@RequestMapping(value = "/getUsuarioByEmailAndSenha")
+	public Usuario getUsuarioByEmailAndSenha(@RequestParam(value = "email") String email, @RequestParam(value = "senha") String senha) {
+		Usuario usuario = usuarioDao.getUsuarioByEmailAndSenha(email, senha, TipoLoginEnum.SISTEMA);
+		return usuario;
+	}
+
+	@RequestMapping(value = "/getUsuarioByEmail")
+	public Usuario getUsuarioByEmail(@RequestParam(value = "email") String email) {
+		Usuario usuario = usuarioDao.getUsuarioByEmail(email, TipoLoginEnum.SISTEMA);
 		return usuario;
 	}
 

@@ -22,8 +22,9 @@ public class DespesaDaoImpl extends GenericDao<Despesa, Long> implements Despesa
 
 	@Override
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public List<Despesa> findByMes(Date dataInicial, Date dataFinal) {
+	public List<Despesa> findByMes(String idUsuario, Date dataInicial, Date dataFinal) {
 		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Despesa.class);
+		criteria.add(Restrictions.eq("usuario.id", Long.parseLong(idUsuario)));
 		criteria.add(Restrictions.between("dataCompra", dataInicial, dataFinal));
 		criteria.addOrder(Order.asc("categoria"));
 		criteria.addOrder(Order.asc("dataCompra"));

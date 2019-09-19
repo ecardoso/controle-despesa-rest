@@ -32,12 +32,12 @@ public class DespesaService implements Serializable {
 	}
 
 	@RequestMapping(value = "/findDespesaListaByMes")
-	public List<Despesa> listaByMes(@RequestParam(value = "data") String dataParam) throws ParseException {
+	public List<Despesa> listaByMes(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "data") String dataParam) throws ParseException {
 		Date data = DataHelper.converterStringParaDate(dataParam);
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
 		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
 
-		return despesaDao.findByMes(dataInicial, dataFinal);
+		return despesaDao.findByMes(idUsuario, dataInicial, dataFinal);
 	}
 
 	@RequestMapping(value = "/getDespesa")

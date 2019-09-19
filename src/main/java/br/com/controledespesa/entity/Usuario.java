@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import br.com.controledespesa.TipoLoginEnum;
+
 @Entity(name = "USUARIO")
 public class Usuario {
 
@@ -14,9 +16,16 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
+	private Integer tipoLogin;
 
 	public Usuario() {
+		this.tipoLogin = TipoLoginEnum.SISTEMA.getChave();
+	}
 
+	public Usuario(String nome, String email) {
+		this();
+		this.nome = nome;
+		this.email = email;
 	}
 
 	public Long getId() {
@@ -49,6 +58,14 @@ public class Usuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public Integer getTipoLogin() {
+		return tipoLogin;
+	}
+
+	public void setTipoLogin(Integer tipoLogin) {
+		this.tipoLogin = tipoLogin;
 	}
 
 }
