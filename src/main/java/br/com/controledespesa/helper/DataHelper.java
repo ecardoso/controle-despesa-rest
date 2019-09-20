@@ -31,6 +31,19 @@ public class DataHelper {
 		return calendar.getTime();
 	}
 
+	public static Date addMesByDia(int dia, int mes, int quantidade) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.set(Calendar.DAY_OF_MONTH, dia);
+		calendar.set(Calendar.HOUR, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+
+		calendar.set(Calendar.MONTH, mes);
+		calendar.add(Calendar.MONTH, quantidade);
+		return calendar.getTime();
+	}
+
 	public static Date converterStringParaDate(String data) throws ParseException {
 		return SDF_DMY.parse(data);
 	}

@@ -1,4 +1,4 @@
-package br.com.controledespesa;
+package br.com.controledespesa.enums;
 
 public enum TipoLoginEnum {
 

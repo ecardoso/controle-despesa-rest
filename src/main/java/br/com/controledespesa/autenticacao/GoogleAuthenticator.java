@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.controledespesa.TipoLoginEnum;
 import br.com.controledespesa.entity.Usuario;
+import br.com.controledespesa.enums.TipoLoginEnum;
 import br.com.controledespesa.exception.DadosException;
 import br.com.controledespesa.repository.UsuarioDaoImpl;
 

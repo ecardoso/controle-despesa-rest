@@ -1,7 +1,7 @@
 package br.com.controledespesa.repository;
 
-import br.com.controledespesa.TipoLoginEnum;
 import br.com.controledespesa.entity.Usuario;
+import br.com.controledespesa.enums.TipoLoginEnum;
 
 public interface UsuarioDao {
 

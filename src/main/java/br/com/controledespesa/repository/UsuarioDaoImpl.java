@@ -8,8 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import br.com.controledespesa.TipoLoginEnum;
 import br.com.controledespesa.entity.Usuario;
+import br.com.controledespesa.enums.TipoLoginEnum;
 
 //public interface UsuarioDaoImpl extends CrudRepository<Usuario, Long> {
 @Repository

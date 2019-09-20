@@ -25,9 +25,9 @@ public class DespesaDaoImpl extends GenericDao<Despesa, Long> implements Despesa
 	public List<Despesa> findByMes(String idUsuario, Date dataInicial, Date dataFinal) {
 		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Despesa.class);
 		criteria.add(Restrictions.eq("usuario.id", Long.parseLong(idUsuario)));
-		criteria.add(Restrictions.between("dataCompra", dataInicial, dataFinal));
+		criteria.add(Restrictions.between("dataPagamento", dataInicial, dataFinal));
 		criteria.addOrder(Order.asc("categoria"));
-		criteria.addOrder(Order.asc("dataCompra"));
+		criteria.addOrder(Order.asc("dataPagamento"));
 
 		List<Despesa> despesas = criteria.list();
 		return despesas;

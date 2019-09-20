@@ -14,8 +14,8 @@ public class MelhorDataCompra {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	private Date dataMelhorCompra;
+	private Date dataPagamento;
 
 	@ManyToOne(targetEntity = FormaPagamento.class)
 	private FormaPagamento formaPagamento;
@@ -53,6 +53,14 @@ public class MelhorDataCompra {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Date getDataPagamento() {
+		return dataPagamento;
+	}
+
+	public void setDataPagamento(Date dataPagamento) {
+		this.dataPagamento = dataPagamento;
 	}
 
 }

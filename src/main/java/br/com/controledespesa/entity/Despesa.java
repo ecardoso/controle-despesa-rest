@@ -26,10 +26,12 @@ public class Despesa {
 	private FormaPagamento formaPagamento;
 
 	private Date dataCompra;
+	private Date dataPagamento;
 	private String descricao;
 	private BigDecimal valor;
 	private boolean despesaFixa;
 	private boolean pago;
+	private int quantidadeParcelas;
 
 	public Despesa() {
 
@@ -105,6 +107,22 @@ public class Despesa {
 
 	public void setFormaPagamento(FormaPagamento formaPagamento) {
 		this.formaPagamento = formaPagamento;
+	}
+
+	public int getQuantidadeParcelas() {
+		return quantidadeParcelas;
+	}
+
+	public void setQuantidadeParcelas(int quantidadeParcelas) {
+		this.quantidadeParcelas = quantidadeParcelas;
+	}
+
+	public Date getDataPagamento() {
+		return dataPagamento;
+	}
+
+	public void setDataPagamento(Date dataPagamento) {
+		this.dataPagamento = dataPagamento;
 	}
 
 }

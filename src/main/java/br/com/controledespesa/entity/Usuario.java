@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import br.com.controledespesa.TipoLoginEnum;
+import br.com.controledespesa.enums.TipoLoginEnum;
 
 @Entity(name = "USUARIO")
 public class Usuario {
