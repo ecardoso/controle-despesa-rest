@@ -49,6 +49,8 @@ public class UsuarioService implements Serializable {
 
 	@RequestMapping(value = "/usuarioSalvar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Usuario salvar(@RequestBody Usuario usuario) {
+		usuario.setTipoLogin(TipoLoginEnum.SISTEMA.getChave());
+
 		usuarioDao.save(usuario);
 		return usuario;
 	}
