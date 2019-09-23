@@ -1,7 +1,5 @@
 package br.com.controledespesa.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +12,8 @@ public class MelhorDataCompra {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Date dataMelhorCompra;
-	private Date dataPagamento;
+	private int dataMelhorCompra;
+	private int dataPagamento;
 
 	@ManyToOne(targetEntity = FormaPagamento.class)
 	private FormaPagamento formaPagamento;
@@ -31,11 +29,11 @@ public class MelhorDataCompra {
 		this.id = id;
 	}
 
-	public Date getDataMelhorCompra() {
+	public int getDataMelhorCompra() {
 		return dataMelhorCompra;
 	}
 
-	public void setDataMelhorCompra(Date dataMelhorCompra) {
+	public void setDataMelhorCompra(int dataMelhorCompra) {
 		this.dataMelhorCompra = dataMelhorCompra;
 	}
 
@@ -55,11 +53,11 @@ public class MelhorDataCompra {
 		this.usuario = usuario;
 	}
 
-	public Date getDataPagamento() {
+	public int getDataPagamento() {
 		return dataPagamento;
 	}
 
-	public void setDataPagamento(Date dataPagamento) {
+	public void setDataPagamento(int dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}
 
