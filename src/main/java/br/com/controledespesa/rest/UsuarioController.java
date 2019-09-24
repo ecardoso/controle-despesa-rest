@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controledespesa.entity.Usuario;
 import br.com.controledespesa.enums.TipoLoginEnum;
-import br.com.controledespesa.repository.UsuarioDaoImpl;
+import br.com.controledespesa.repository.UsuarioDao;
 
 @RestController
-public class UsuarioService implements Serializable {
+public class UsuarioController implements Serializable {
 
 	private static final long serialVersionUID = -3654939268019465862L;
 
 	@Autowired
-	private UsuarioDaoImpl usuarioDao;
+	private UsuarioDao usuarioDao;
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/usuarioLista")

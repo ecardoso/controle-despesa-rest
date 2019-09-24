@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controledespesa.entity.FormaPagamento;
-import br.com.controledespesa.repository.FormaPagamentoDaoImpl;
+import br.com.controledespesa.repository.FormaPagamentoDao;
 
 @RestController
-public class FormaPagamentoService {
+public class FormaPagamentoController {
 
 	@Autowired
-	private FormaPagamentoDaoImpl formaPagamentoDao;
+	private FormaPagamentoDao formaPagamentoDao;
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/formaPagamentoLista")

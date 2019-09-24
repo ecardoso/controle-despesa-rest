@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import br.com.controledespesa.entity.Despesa;
 
 @Repository
-public class DespesaDaoImpl extends GenericDao<Despesa, Long> implements DespesaDao {
+public class DespesaDaoImpl extends GenericDaoImpl<Despesa, Long> implements DespesaDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;

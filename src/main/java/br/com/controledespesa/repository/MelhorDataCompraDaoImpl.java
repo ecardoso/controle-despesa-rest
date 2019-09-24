@@ -13,7 +13,7 @@ import br.com.controledespesa.entity.MelhorDataCompra;
 import br.com.controledespesa.entity.Usuario;
 
 @Repository
-public class MelhorDataCompraDaoImpl extends GenericDao<MelhorDataCompra, Long> implements MelhorDataCompraDao {
+public class MelhorDataCompraDaoImpl extends GenericDaoImpl<MelhorDataCompra, Long> implements MelhorDataCompraDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;

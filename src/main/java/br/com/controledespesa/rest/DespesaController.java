@@ -18,16 +18,16 @@ import br.com.controledespesa.entity.Despesa;
 import br.com.controledespesa.entity.MelhorDataCompra;
 import br.com.controledespesa.helper.Calculadora;
 import br.com.controledespesa.helper.DataHelper;
-import br.com.controledespesa.repository.DespesaDaoImpl;
+import br.com.controledespesa.repository.DespesaDao;
 import br.com.controledespesa.repository.MelhorDataCompraDaoImpl;
 
 @RestController
-public class DespesaService implements Serializable {
+public class DespesaController implements Serializable {
 
 	private static final long serialVersionUID = 3927947824384666134L;
 
 	@Autowired
-	private DespesaDaoImpl despesaDao;
+	private DespesaDao despesaDao;
 
 	@Autowired
 	private MelhorDataCompraDaoImpl melhorDataCompraDaoImpl;

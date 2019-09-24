@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controledespesa.entity.MelhorDataCompra;
-import br.com.controledespesa.repository.MelhorDataCompraDaoImpl;
+import br.com.controledespesa.repository.MelhorDataCompraDao;
 
 @RestController
-public class MelhorDataCompraService {
+public class MelhorDataCompraController {
 
 	@Autowired
-	private MelhorDataCompraDaoImpl melhorDataCompraDao;
+	private MelhorDataCompraDao melhorDataCompraDao;
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/melhorDataCompraLista")

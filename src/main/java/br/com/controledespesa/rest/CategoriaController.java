@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controledespesa.entity.Categoria;
-import br.com.controledespesa.repository.CategoriaDaoImpl;
+import br.com.controledespesa.repository.CategoriaDao;
 
 @RestController
-public class CategoriaService {
+public class CategoriaController {
 
 	@Autowired
-	private CategoriaDaoImpl categoriaDao;
+	private CategoriaDao categoriaDao;
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/categoriaLista")

@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import br.com.controledespesa.entity.Categoria;
 
 @Repository
-public class CategoriaDaoImpl extends GenericDao<Categoria, Long> {
+public class CategoriaDaoImpl extends GenericDaoImpl<Categoria, Long> implements CategoriaDao {
 
 }

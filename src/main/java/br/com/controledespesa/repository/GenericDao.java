@@ -1,60 +1,19 @@
 package br.com.controledespesa.repository;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+public interface GenericDao<T, PK> {
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.transaction.annotation.Transactional;
+	public <S extends T> S save(S entity);
 
-public class GenericDao<T, PK> {
+	public <S extends T> void delete(S entity);
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	public <S extends T> S update(S entity);
 
-	@Transactional
-	public <S extends T> S save(S entity) {
-		entityManager.persist(entity);
-		return entity;
-	}
+	public List<? extends T> findAll();
 
-	@Transactional
-	public <S extends T> void delete(S entity) {
-		entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-	}
+	public T getById(PK pk);
 
-	@Transactional
-	public <S extends T> S update(S entity) {
-		entityManager.merge(entity);
-		return entity;
-	}
-
-	@SuppressWarnings({ "deprecation", "unchecked" })
-	public List<? extends T> findAll() {
-		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(getTypeClass());
-		return criteria.list();
-	}
-
-	@SuppressWarnings("unchecked")
-	public T getById(PK pk) {
-		return (T) entityManager.find(getTypeClass(), pk);
-	}
-
-	@SuppressWarnings({ "deprecation", "unchecked" })
-	public <S extends T> S getByProperty(String propertyName, String propertyNameValues) {
-		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(getTypeClass());
-		criteria.add(Restrictions.eq(propertyName, propertyNameValues));
-
-		return (S) criteria.uniqueResult();
-	}
-
-	private Class<?> getTypeClass() {
-		Class<?> clazz = (Class<?>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-		return clazz;
-	}
+	public <S extends T> S getByProperty(String propertyName, String propertyNameValues);
 
 }

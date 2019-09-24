@@ -13,7 +13,7 @@ import br.com.controledespesa.enums.TipoLoginEnum;
 
 //public interface UsuarioDaoImpl extends CrudRepository<Usuario, Long> {
 @Repository
-public class UsuarioDaoImpl extends GenericDao<Usuario, Long> implements UsuarioDao {
+public class UsuarioDaoImpl extends GenericDaoImpl<Usuario, Long> implements UsuarioDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
