@@ -79,7 +79,7 @@ public class DespesaController implements Serializable {
 			novaDespesa.setValor(Calculadora.dividir(despesa.getValor(), new BigDecimal(quantidadeParcelas)));
 
 			if (melhorDataCompra != null) {
-				boolean melhorData = DataHelper.dataEntreMelhorCompra(DataHelper.getDataByDia(melhorDataCompra.getDataMelhorCompra()), despesa.getDataCompra());
+				boolean melhorData = melhorDataCompra.getDataMelhorCompra() <= despesa.getDataCompra().getDate();
 				int addMes = melhorData ? 1 : 0;
 
 				novaDespesa.setDataPagamento(DataHelper.addMesByDia(melhorDataCompra.getDataPagamento(), despesa.getDataCompra().getMonth(), i + addMes));
