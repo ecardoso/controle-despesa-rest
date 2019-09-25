@@ -56,28 +56,31 @@ public class DespesaController implements Serializable {
 	@SuppressWarnings({ "deprecation" })
 	@RequestMapping(value = "/despesaSalvar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Despesa salvar(@RequestBody Despesa despesa) {
-		if (despesa.getId() != null) {
-			despesaDao.update(despesa);
-			return despesa;
-		}
-
-		int quantidadeParcelas = despesa.getQuantidadeParcelas();
-		if (quantidadeParcelas <= 1) {
-			despesaDao.save(despesa);
-			return despesa;
-		}
-
 		Integer pagamento = null;
 		MelhorDataCompra melhorDataCompra = melhorDataCompraDaoImpl.getMelhorDataCompra(despesa.getUsuario(), despesa.getFormaPagamento());
 		if (melhorDataCompra != null) {
 			pagamento = melhorDataCompra.getDataPagamento();
 		}
 
+		if (despesa.getId() != null) {
+			if (pagamento == null) {
+				despesa.setDataPagamento(despesa.getDataCompra());
+			}
+
+			despesaDao.update(despesa);
+			return despesa;
+		}
+
+		int quantidadeParcelas = despesa.getQuantidadeParcelas();
+
 		for (int i = 1; i <= quantidadeParcelas; i++) {
 			despesa.setDataPagamento(despesa.getDataCompra());
 
 			Despesa novaDespesa = novaDespesa(despesa);
-			novaDespesa.setDescricao(despesa.getDescricao().concat(String.format(" Parcela %s de %s", i, quantidadeParcelas)));
+
+			if (quantidadeParcelas > 1) {
+				novaDespesa.setDescricao(despesa.getDescricao().concat(String.format(" Parcela %s de %s", i, quantidadeParcelas)));
+			}
 			novaDespesa.setValor(Calculadora.dividir(despesa.getValor(), new BigDecimal(quantidadeParcelas)));
 
 			if (pagamento != null) {
