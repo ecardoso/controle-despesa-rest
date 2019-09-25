@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.controledespesa.entity.Usuario;
 import br.com.controledespesa.enums.TipoLoginEnum;
 import br.com.controledespesa.exception.DadosException;
-import br.com.controledespesa.repository.UsuarioDaoImpl;
+import br.com.controledespesa.repository.UsuarioDao;
 
 @RestController
 public class GoogleAuthenticator {
@@ -19,7 +19,7 @@ public class GoogleAuthenticator {
 	private static final String verificationUrl = "accounts.google.com";
 	*/
 	@Autowired
-	private UsuarioDaoImpl usuarioDao;
+	private UsuarioDao usuarioDao;
 
 	@RequestMapping(value = "/loginGoogle")
 	public Usuario getLogin(@RequestParam(value = "nome") String nome, @RequestParam(value = "email") String email) throws DadosException {

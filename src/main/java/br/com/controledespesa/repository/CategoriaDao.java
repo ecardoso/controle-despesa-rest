@@ -1,7 +1,10 @@
 package br.com.controledespesa.repository;
 
+import org.springframework.stereotype.Repository;
+
 import br.com.controledespesa.entity.Categoria;
 
-public interface CategoriaDao extends GenericDao<Categoria, Long> {
+@Repository
+public class CategoriaDao extends GenericDaoImpl<Categoria, Long> {
 
 }

@@ -19,7 +19,7 @@ import br.com.controledespesa.entity.MelhorDataCompra;
 import br.com.controledespesa.helper.Calculadora;
 import br.com.controledespesa.helper.DataHelper;
 import br.com.controledespesa.repository.DespesaDao;
-import br.com.controledespesa.repository.MelhorDataCompraDaoImpl;
+import br.com.controledespesa.repository.MelhorDataCompraDao;
 
 @RestController
 public class DespesaController implements Serializable {
@@ -30,7 +30,7 @@ public class DespesaController implements Serializable {
 	private DespesaDao despesaDao;
 
 	@Autowired
-	private MelhorDataCompraDaoImpl melhorDataCompraDaoImpl;
+	private MelhorDataCompraDao melhorDataCompraDaoImpl;
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/despesaLista")

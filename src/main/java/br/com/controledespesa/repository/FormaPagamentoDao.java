@@ -1,7 +1,10 @@
 package br.com.controledespesa.repository;
 
+import org.springframework.stereotype.Repository;
+
 import br.com.controledespesa.entity.FormaPagamento;
 
-public interface FormaPagamentoDao extends GenericDao<FormaPagamento, Long> {
+@Repository
+public class FormaPagamentoDao extends GenericDaoImpl<FormaPagamento, Long> {
 
 }
