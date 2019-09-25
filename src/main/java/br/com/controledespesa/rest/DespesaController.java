@@ -56,14 +56,9 @@ public class DespesaController implements Serializable {
 	@SuppressWarnings({ "deprecation" })
 	@RequestMapping(value = "/despesaSalvar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Despesa salvar(@RequestBody Despesa despesa) {
-		Integer pagamento = null;
 		MelhorDataCompra melhorDataCompra = melhorDataCompraDaoImpl.getMelhorDataCompra(despesa.getUsuario(), despesa.getFormaPagamento());
-		if (melhorDataCompra != null) {
-			pagamento = melhorDataCompra.getDataPagamento();
-		}
-
 		if (despesa.getId() != null) {
-			if (pagamento == null) {
+			if (melhorDataCompra != null) {
 				despesa.setDataPagamento(despesa.getDataCompra());
 			}
 
@@ -72,7 +67,6 @@ public class DespesaController implements Serializable {
 		}
 
 		int quantidadeParcelas = despesa.getQuantidadeParcelas();
-
 		for (int i = 1; i <= quantidadeParcelas; i++) {
 			despesa.setDataPagamento(despesa.getDataCompra());
 
@@ -81,10 +75,14 @@ public class DespesaController implements Serializable {
 			if (quantidadeParcelas > 1) {
 				novaDespesa.setDescricao(despesa.getDescricao().concat(String.format(" Parcela %s de %s", i, quantidadeParcelas)));
 			}
+
 			novaDespesa.setValor(Calculadora.dividir(despesa.getValor(), new BigDecimal(quantidadeParcelas)));
 
-			if (pagamento != null) {
-				novaDespesa.setDataPagamento(DataHelper.addMesByDia(pagamento, despesa.getDataCompra().getMonth(), i));
+			if (melhorDataCompra != null) {
+				boolean melhorData = DataHelper.dataEntreMelhorCompra(DataHelper.getDataByDia(melhorDataCompra.getDataMelhorCompra()), despesa.getDataCompra());
+				int addMes = melhorData ? 1 : 0;
+
+				novaDespesa.setDataPagamento(DataHelper.addMesByDia(melhorDataCompra.getDataPagamento(), despesa.getDataCompra().getMonth(), i + addMes));
 			}
 
 			despesaDao.save(novaDespesa);
