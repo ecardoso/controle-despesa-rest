@@ -33,8 +33,18 @@ public class FormaPagamentoController {
 
 	@RequestMapping(value = "/formaPagamentoSalvar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public FormaPagamento formaPagamentoSalvar(@RequestBody FormaPagamento formaPagamento) {
+		if (formaPagamento.getId() != null) {
+			formaPagamentoDao.update(formaPagamento);
+			return formaPagamento;
+		}
+
 		formaPagamentoDao.save(formaPagamento);
 		return formaPagamento;
+	}
+
+	@RequestMapping(value = "/formaPagamentoDeletar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void deletar(@RequestBody FormaPagamento formaPagamento) {
+		formaPagamentoDao.delete(formaPagamento);
 	}
 
 }
