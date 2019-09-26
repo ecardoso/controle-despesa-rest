@@ -112,4 +112,10 @@ public class DespesaController implements Serializable {
 		return novaDespesa;
 	}
 
+	@RequestMapping(value = "/deleteDespesa")
+	public void deleteDespesa(@RequestParam(value = "id") Long id) {
+		Despesa despesa = despesaDao.getById(id);
+		despesaDao.delete(despesa);
+	}
+
 }
