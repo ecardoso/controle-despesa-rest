@@ -91,6 +91,12 @@ public class DespesaController implements Serializable {
 		return despesa;
 	}
 
+	@RequestMapping(value = "/despesaDeletarById")
+	public void deleteDespesa(@RequestParam(value = "id") Long id) {
+		Despesa despesa = despesaDao.getById(id);
+		deletar(despesa);
+	}
+
 	@RequestMapping(value = "/despesaDeletar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void deletar(@RequestBody Despesa despesa) {
 		despesaDao.delete(despesa);
@@ -110,12 +116,6 @@ public class DespesaController implements Serializable {
 		novaDespesa.setQuantidadeParcelas(despesa.getQuantidadeParcelas());
 
 		return novaDespesa;
-	}
-
-	@RequestMapping(value = "/deleteDespesa")
-	public void deleteDespesa(@RequestParam(value = "id") Long id) {
-		Despesa despesa = despesaDao.getById(id);
-		despesaDao.delete(despesa);
 	}
 
 }
