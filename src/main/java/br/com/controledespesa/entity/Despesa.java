@@ -35,10 +35,6 @@ public class Despesa {
 	private boolean pago;
 	private int quantidadeParcelas;
 
-	public Despesa() {
-
-	}
-
 	public Long getId() {
 		return id;
 	}

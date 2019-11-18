@@ -11,7 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
-public class GenericDaoImpl<T, PK> implements GenericDao<T, PK> {
+public class GenericDaoImpl<T, K> implements GenericDao<T, K> {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -38,14 +38,14 @@ public class GenericDaoImpl<T, PK> implements GenericDao<T, PK> {
 
 	@Override
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public List<? extends T> findAll() {
+	public List<T> findAll() {
 		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(getTypeClass());
 		return criteria.list();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public T getById(PK pk) {
+	public T getById(K pk) {
 		return (T) entityManager.find(getTypeClass(), pk);
 	}
 
@@ -59,8 +59,7 @@ public class GenericDaoImpl<T, PK> implements GenericDao<T, PK> {
 	}
 
 	private Class<?> getTypeClass() {
-		Class<?> clazz = (Class<?>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-		return clazz;
+		return (Class<?>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 }

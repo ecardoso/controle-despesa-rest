@@ -7,7 +7,11 @@ import java.util.Date;
 
 public class DataHelper {
 
-	public static final SimpleDateFormat SDF_DMY = new SimpleDateFormat("dd/MM/yyyy");
+	private static final String SDF_DMY = "dd/MM/yyyy";
+
+	private DataHelper() {
+
+	}
 
 	public static Date getDataByDia(int dia) {
 		Calendar calendar = Calendar.getInstance();
@@ -56,7 +60,7 @@ public class DataHelper {
 	}
 
 	public static Date converterStringParaDate(String data) throws ParseException {
-		return SDF_DMY.parse(data);
+		return new SimpleDateFormat(SDF_DMY).parse(data);
 	}
 
 	public static boolean dataEntreMelhorCompra(Date dataInicial, Date dataFinal) {

@@ -43,7 +43,7 @@ public class Calculadora {
 	}
 
 	public static Long defaultLong(Long valor) {
-		return valor == null ? new Long(0) : valor;
+		return valor == null ? 0L : valor;
 	}
 
 	public static Short defaultShort(Short valor) {
@@ -177,7 +177,7 @@ public class Calculadora {
 	}
 
 	public static BigDecimal restoDivisao(double vlrFinanceiroTotal, double vlrMultiplo) {
-		return new BigDecimal(vlrFinanceiroTotal).setScale(ESCALA_PRECISAO_BAIXA, BigDecimal.ROUND_HALF_UP)
-				.remainder(new BigDecimal(vlrMultiplo).setScale(ESCALA_PRECISAO_BAIXA, BigDecimal.ROUND_HALF_UP));
+		return BigDecimal.valueOf(vlrFinanceiroTotal).setScale(ESCALA_PRECISAO_BAIXA, BigDecimal.ROUND_HALF_UP)
+				.remainder(BigDecimal.valueOf(vlrMultiplo).setScale(ESCALA_PRECISAO_BAIXA, BigDecimal.ROUND_HALF_UP));
 	}
 }

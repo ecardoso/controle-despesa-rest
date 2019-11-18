@@ -28,8 +28,7 @@ public class DespesaDao extends GenericDaoImpl<Despesa, Long> {
 		criteria.addOrder(Order.asc("categoria"));
 		criteria.addOrder(Order.asc("dataPagamento"));
 
-		List<Despesa> despesas = criteria.list();
-		return despesas;
+		return criteria.list();
 	}
 
 }

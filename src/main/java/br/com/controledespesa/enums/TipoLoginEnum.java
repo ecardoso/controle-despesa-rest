@@ -15,7 +15,7 @@ public enum TipoLoginEnum {
 		return chave;
 	}
 
-	public void setChave(Integer chave) {
+	private void setChave(Integer chave) {
 		this.chave = chave;
 	}
 

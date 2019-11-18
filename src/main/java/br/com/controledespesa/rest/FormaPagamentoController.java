@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,31 +20,28 @@ public class FormaPagamentoController {
 	@Autowired
 	private FormaPagamentoDao formaPagamentoDao;
 
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/formaPagamentoLista")
-	public List<FormaPagamento> lista() {
-		return (List<FormaPagamento>) formaPagamentoDao.findAll();
+	@GetMapping(value = "/findAllFormaPagamento")
+	public List<FormaPagamento> findAll() {
+		return formaPagamentoDao.findAll();
 	}
 
-	@RequestMapping(value = "/getFormaPagamento")
+	@GetMapping(value = "/getFormaPagamento")
 	public FormaPagamento getFormaPagamento(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		FormaPagamento formaPagamento = formaPagamentoDao.getById(id);
-		return formaPagamento;
+		return formaPagamentoDao.getById(id);
 	}
 
-	@RequestMapping(value = "/formaPagamentoSalvar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public FormaPagamento formaPagamentoSalvar(@RequestBody FormaPagamento formaPagamento) {
+	@PostMapping(value = "/saveFormaPagamento", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public FormaPagamento save(@RequestBody FormaPagamento formaPagamento) {
 		if (formaPagamento.getId() != null) {
 			formaPagamentoDao.update(formaPagamento);
 			return formaPagamento;
 		}
 
-		formaPagamentoDao.save(formaPagamento);
-		return formaPagamento;
+		return formaPagamentoDao.save(formaPagamento);
 	}
 
-	@RequestMapping(value = "/formaPagamentoDeletar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void deletar(@RequestBody FormaPagamento formaPagamento) {
+	@DeleteMapping(value = "/deleteFormaPagamento", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void delete(@RequestBody FormaPagamento formaPagamento) {
 		formaPagamentoDao.delete(formaPagamento);
 	}
 

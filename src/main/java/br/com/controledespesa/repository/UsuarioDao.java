@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import br.com.controledespesa.entity.Usuario;
 import br.com.controledespesa.enums.TipoLoginEnum;
 
-//public interface UsuarioDaoImpl extends CrudRepository<Usuario, Long> {
 @Repository
 public class UsuarioDao extends GenericDaoImpl<Usuario, Long> {
 
@@ -25,8 +24,7 @@ public class UsuarioDao extends GenericDaoImpl<Usuario, Long> {
 		criteria.add(Restrictions.eq("senha", senha));
 		criteria.add(Restrictions.eq("tipoLogin", tipoLoginEnum.getChave()));
 
-		Usuario usuario = (Usuario) criteria.uniqueResult();
-		return usuario;
+		return (Usuario) criteria.uniqueResult();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -35,8 +33,7 @@ public class UsuarioDao extends GenericDaoImpl<Usuario, Long> {
 		criteria.add(Restrictions.eq("email", email));
 		criteria.add(Restrictions.eq("tipoLogin", tipoLoginEnum.getChave()));
 
-		Usuario usuario = (Usuario) criteria.uniqueResult();
-		return usuario;
+		return (Usuario) criteria.uniqueResult();
 	}
 
 }

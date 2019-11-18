@@ -8,9 +8,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,18 +27,17 @@ public class DespesaController implements Serializable {
 	private static final long serialVersionUID = 3927947824384666134L;
 
 	@Autowired
-	private DespesaDao despesaDao;
+	private transient DespesaDao despesaDao;
 
 	@Autowired
-	private MelhorDataCompraDao melhorDataCompraDaoImpl;
+	private transient MelhorDataCompraDao melhorDataCompraDaoImpl;
 
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/despesaLista")
-	public List<Despesa> lista() {
-		return (List<Despesa>) despesaDao.findAll();
+	@GetMapping(value = "/findAllDespesa")
+	public List<Despesa> findAll() {
+		return despesaDao.findAll();
 	}
 
-	@RequestMapping(value = "/findDespesaListaByMes")
+	@GetMapping(value = "/findDespesaListaByMes")
 	public List<Despesa> listaByMes(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "data") String dataParam) throws ParseException {
 		Date data = DataHelper.converterStringParaDate(dataParam);
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
@@ -47,14 +46,13 @@ public class DespesaController implements Serializable {
 		return despesaDao.findByMes(idUsuario, dataInicial, dataFinal);
 	}
 
-	@RequestMapping(value = "/getDespesa")
+	@GetMapping(value = "/getDespesa")
 	public Despesa getDespesa(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		Despesa despesa = despesaDao.getById(id);
-		return despesa;
+		return despesaDao.getById(id);
 	}
 
 	@SuppressWarnings({ "deprecation" })
-	@RequestMapping(value = "/despesaSalvar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/saveDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Despesa salvar(@RequestBody Despesa despesa) {
 		MelhorDataCompra melhorDataCompra = melhorDataCompraDaoImpl.getMelhorDataCompra(despesa.getUsuario(), despesa.getFormaPagamento());
 		if (despesa.getId() != null) {
@@ -62,8 +60,7 @@ public class DespesaController implements Serializable {
 				despesa.setDataPagamento(despesa.getDataCompra());
 			}
 
-			despesaDao.update(despesa);
-			return despesa;
+			return despesaDao.update(despesa);
 		}
 
 		int quantidadeParcelas = despesa.getQuantidadeParcelas();
@@ -91,14 +88,14 @@ public class DespesaController implements Serializable {
 		return despesa;
 	}
 
-	@RequestMapping(value = "/despesaDeletarById")
-	public void deleteDespesa(@RequestParam(value = "id") Long id) {
+	@GetMapping(value = "/deleteDespesaById")
+	public void deleteDespesaById(@RequestParam(value = "id") Long id) {
 		Despesa despesa = despesaDao.getById(id);
-		deletar(despesa);
+		delete(despesa);
 	}
 
-	@RequestMapping(value = "/despesaDeletar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void deletar(@RequestBody Despesa despesa) {
+	@PostMapping(value = "/deleteDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void delete(@RequestBody Despesa despesa) {
 		despesaDao.delete(despesa);
 	}
 

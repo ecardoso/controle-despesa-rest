@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,20 +20,18 @@ public class MelhorDataCompraController {
 	@Autowired
 	private MelhorDataCompraDao melhorDataCompraDao;
 
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/melhorDataCompraLista")
-	public List<MelhorDataCompra> lista() {
-		return (List<MelhorDataCompra>) melhorDataCompraDao.findAll();
+	@GetMapping(value = "/findAllMelhorDataCompra")
+	public List<MelhorDataCompra> findAll() {
+		return melhorDataCompraDao.findAll();
 	}
 
-	@RequestMapping(value = "/getMelhorDataCompra")
+	@GetMapping(value = "/getMelhorDataCompra")
 	public MelhorDataCompra getMelhorDataCompra(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		MelhorDataCompra melhorDataCompra = melhorDataCompraDao.getById(id);
-		return melhorDataCompra;
+		return melhorDataCompraDao.getById(id);
 	}
 
-	@RequestMapping(value = "/melhorDataCompraSalvar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public MelhorDataCompra melhorDataCompraSalvar(@RequestBody MelhorDataCompra melhorDataCompra) {
+	@PostMapping(value = "/saveMelhorDataCompra", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public MelhorDataCompra save(@RequestBody MelhorDataCompra melhorDataCompra) {
 		if (melhorDataCompra.getId() == null) {
 			melhorDataCompraDao.save(melhorDataCompra);
 		} else {
@@ -42,8 +41,8 @@ public class MelhorDataCompraController {
 		return melhorDataCompra;
 	}
 
-	@RequestMapping(value = "/melhorDataCompraDeletar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void deletar(@RequestBody MelhorDataCompra melhorDataCompra) {
+	@DeleteMapping(value = "/deleteMelhorDataCompra", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void delete(@RequestBody MelhorDataCompra melhorDataCompra) {
 		melhorDataCompraDao.delete(melhorDataCompra);
 	}
 

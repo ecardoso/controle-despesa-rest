@@ -87,9 +87,7 @@ public final class BigDecimalUtils {
 			DecimalFormat decimalFormat = new DecimalFormat(pattern);
 			decimalFormat.setParseBigDecimal(true);
 
-			BigDecimal bigDecimal = (BigDecimal) decimalFormat.parse(source.trim());
-
-			return bigDecimal;
+			return (BigDecimal) decimalFormat.parse(source.trim());
 
 		} catch (ParseException ex) {
 			throw new IllegalArgumentException("Erro ao realizar parse");
