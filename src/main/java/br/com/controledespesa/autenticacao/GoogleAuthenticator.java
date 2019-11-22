@@ -1,5 +1,7 @@
 package br.com.controledespesa.autenticacao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,8 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 public class GoogleAuthenticator {
 
+	private static final Logger logger = LoggerFactory.getLogger(GoogleAuthenticator.class);
+
 	@Autowired
 	private UsuarioDao usuarioDao;
 
@@ -25,6 +29,8 @@ public class GoogleAuthenticator {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "nome", value = "nome do usuário", required = true, dataTypeClass = String.class),
 			@ApiImplicitParam(name = "email", value = "e-mail do usuário", required = true, dataTypeClass = String.class) })
 	public Usuario getLogin(@RequestParam(value = "nome") String nome, @RequestParam(value = "email") String email) {
+		logger.info(String.format("email: %s, nome: %s", email, nome));
+
 		Usuario usuario = usuarioDao.getUsuarioByEmail(email, TipoLoginEnum.GOOGLE);
 		if (usuario == null) {
 			usuario = new Usuario(nome, email);
