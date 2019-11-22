@@ -6,13 +6,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity(name = "FORMA_PAGAMENTO")
 public class FormaPagamento {
 
 	@Id
 	@SequenceGenerator(name = "FORMA_PAGAMENTO_ID", sequenceName = "FORMA_PAGAMENTO_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FORMA_PAGAMENTO_ID")
+	@ApiModelProperty(value = "id forma de pagamento")
 	private Long id;
+
+	@ApiModelProperty(value = "descrição da forma de pagamento")
 	private String descricao;
 
 	public Long getId() {

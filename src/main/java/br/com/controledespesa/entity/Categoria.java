@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity(name = "CATEGORIA")
 public class Categoria implements Serializable {
 
@@ -16,7 +18,10 @@ public class Categoria implements Serializable {
 	@Id
 	@SequenceGenerator(name = "CATEGORIA_ID", sequenceName = "CATEGORIA_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CATEGORIA_ID")
+	@ApiModelProperty(value = "id categoria")
 	private Long id;
+
+	@ApiModelProperty(value = "descrição da categoria")
 	private String descricao;
 
 	public Categoria() {

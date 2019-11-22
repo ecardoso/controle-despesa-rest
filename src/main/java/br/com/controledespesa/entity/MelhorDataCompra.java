@@ -7,20 +7,29 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity(name = "MELHOR_DATA_COMPRA")
 public class MelhorDataCompra {
 
 	@Id
 	@SequenceGenerator(name = "MELHOR_DATA_COMPRA_ID", sequenceName = "MELHOR_DATA_COMPRA_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MELHOR_DATA_COMPRA_ID")
+	@ApiModelProperty(value = "id melhor data da compra")
 	private Long id;
+
+	@ApiModelProperty(value = "dia da melhor compra")
 	private int dataMelhorCompra;
+
+	@ApiModelProperty(value = "dia do pagamento")
 	private int dataPagamento;
 
 	@ManyToOne(targetEntity = FormaPagamento.class)
+	@ApiModelProperty(value = "forma de pagamento")
 	private FormaPagamento formaPagamento;
 
 	@ManyToOne(targetEntity = Usuario.class)
+	@ApiModelProperty(value = "usuário")
 	private Usuario usuario;
 
 	public Long getId() {

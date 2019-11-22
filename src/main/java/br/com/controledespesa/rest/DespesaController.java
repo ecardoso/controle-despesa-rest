@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,10 @@ import br.com.controledespesa.helper.Calculadora;
 import br.com.controledespesa.helper.DataHelper;
 import br.com.controledespesa.repository.DespesaDao;
 import br.com.controledespesa.repository.MelhorDataCompraDao;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 public class DespesaController implements Serializable {
@@ -33,12 +38,18 @@ public class DespesaController implements Serializable {
 	private transient MelhorDataCompraDao melhorDataCompraDaoImpl;
 
 	@GetMapping(value = "/findAllDespesa")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	public List<Despesa> findAll() {
 		return despesaDao.findAll();
 	}
 
 	@GetMapping(value = "/findDespesaListaByMes")
-	public List<Despesa> listaByMes(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "data") String dataParam) throws ParseException {
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de despesa do mês"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "usuario", value = "id do usuário", required = true, dataTypeClass = String.class),
+			@ApiImplicitParam(name = "data", value = "data", required = true, dataTypeClass = String.class) })
+	public List<Despesa> findDespesaListaByMes(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "data") String dataParam) throws ParseException {
 		Date data = DataHelper.converterStringParaDate(dataParam);
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
 		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
@@ -47,12 +58,18 @@ public class DespesaController implements Serializable {
 	}
 
 	@GetMapping(value = "/getDespesa")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna uma despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id do usuário", defaultValue = "1", required = true, dataTypeClass = Long.class) })
 	public Despesa getDespesa(@RequestParam(value = "id", defaultValue = "1") Long id) {
 		return despesaDao.getById(id);
 	}
 
 	@SuppressWarnings({ "deprecation" })
 	@PostMapping(value = "/saveDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "salvar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public Despesa salvar(@RequestBody Despesa despesa) {
 		MelhorDataCompra melhorDataCompra = melhorDataCompraDaoImpl.getMelhorDataCompra(despesa.getUsuario(), despesa.getFormaPagamento());
 		if (despesa.getId() != null) {
@@ -88,13 +105,19 @@ public class DespesaController implements Serializable {
 		return despesa;
 	}
 
-	@GetMapping(value = "/deleteDespesaById")
+	@DeleteMapping(value = "/deleteDespesaById")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id do usuário", required = true, dataTypeClass = Long.class) })
 	public void deleteDespesaById(@RequestParam(value = "id") Long id) {
 		Despesa despesa = despesaDao.getById(id);
 		delete(despesa);
 	}
 
-	@PostMapping(value = "/deleteDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/deleteDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public void delete(@RequestBody Despesa despesa) {
 		despesaDao.delete(despesa);
 	}

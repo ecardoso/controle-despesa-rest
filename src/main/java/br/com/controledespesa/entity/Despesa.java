@@ -10,29 +10,48 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity(name = "DESPESA")
 public class Despesa {
 
 	@Id
 	@SequenceGenerator(name = "DESPESA_ID", sequenceName = "DESPESA_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DESPESA_ID")
+	@ApiModelProperty(value = "id despesa")
 	private Long id;
 
 	@ManyToOne(targetEntity = Categoria.class)
+	@ApiModelProperty(value = "categoria")
 	private Categoria categoria;
 
 	@ManyToOne(targetEntity = Usuario.class)
+	@ApiModelProperty(value = "usuario")
 	private Usuario usuario;
 
 	@ManyToOne(targetEntity = FormaPagamento.class)
+	@ApiModelProperty(value = "forma dr pagamento")
 	private FormaPagamento formaPagamento;
 
+	@ApiModelProperty(value = "data da compra")
 	private Date dataCompra;
+
+	@ApiModelProperty(value = "data de pagamento")
 	private Date dataPagamento;
+
+	@ApiModelProperty(value = "descrição da despesa")
 	private String descricao;
+
+	@ApiModelProperty(value = "valor da despesa")
 	private BigDecimal valor;
+
+	@ApiModelProperty(value = "despesa fixa do mês")
 	private boolean despesaFixa;
+
+	@ApiModelProperty(value = "despesa foi paga")
 	private boolean pago;
+
+	@ApiModelProperty(value = "quantidade de parcelas")
 	private int quantidadeParcelas;
 
 	public Long getId() {
