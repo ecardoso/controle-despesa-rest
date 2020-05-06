@@ -122,6 +122,25 @@ public class DespesaController implements Serializable {
 		despesaDao.delete(despesa);
 	}
 
+	@PostMapping(value = "/updateDespesaParaPagoByMes", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "atualizar as despasa para pago do mês referente"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "usuario", value = "id do usuário", required = true, dataTypeClass = String.class),
+			@ApiImplicitParam(name = "data", value = "data", required = true, dataTypeClass = String.class) })
+	public void updateDespesaParaPagoByMes(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "data") String dataParam) throws ParseException {
+		Date data = DataHelper.converterStringParaDate(dataParam);
+		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
+		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
+
+		List<Despesa> despesas = despesaDao.findByMes(idUsuario, dataInicial, dataFinal);
+		for (Despesa despesa : despesas) {
+			if (!despesa.isPago()) {
+				despesa.setPago(true);
+				despesaDao.update(despesa);
+			}
+		}
+	}
+
 	private Despesa novaDespesa(Despesa despesa) {
 		Despesa novaDespesa = new Despesa();
 		novaDespesa.setCategoria(despesa.getCategoria());

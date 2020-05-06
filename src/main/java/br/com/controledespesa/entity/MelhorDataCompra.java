@@ -1,5 +1,7 @@
 package br.com.controledespesa.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +25,9 @@ public class MelhorDataCompra {
 
 	@ApiModelProperty(value = "dia do pagamento")
 	private int dataPagamento;
+	
+	@ApiModelProperty(value = "mes e referencia")
+	private Date mesReferencia;	
 
 	@ManyToOne(targetEntity = FormaPagamento.class)
 	@ApiModelProperty(value = "forma de pagamento")
@@ -70,6 +75,14 @@ public class MelhorDataCompra {
 
 	public void setDataPagamento(int dataPagamento) {
 		this.dataPagamento = dataPagamento;
+	}
+
+	public Date getMesReferencia() {
+		return mesReferencia;
+	}
+
+	public void setMesReferencia(Date mesReferencia) {
+		this.mesReferencia = mesReferencia;
 	}
 
 }
