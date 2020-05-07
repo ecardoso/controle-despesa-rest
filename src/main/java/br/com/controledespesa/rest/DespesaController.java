@@ -129,11 +129,11 @@ public class DespesaController implements Serializable {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public void updateDespesaParaPagoByMes(@RequestBody Despesa despesa) {
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(2020, 04, 1);
+		calendar.set(2019, 01, 1);
 
 		Date data = calendar.getTime();
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
-		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
+		Date dataFinal = DataHelper.getUltimoDiaDoMes(new Date());
 
 		List<Despesa> despesas = despesaDao.findByMes(despesa.getUsuario().getId().toString(), dataInicial, dataFinal);
 		for (Despesa value : despesas) {
