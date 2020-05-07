@@ -3,6 +3,7 @@ package br.com.controledespesa.rest;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -127,7 +128,10 @@ public class DespesaController implements Serializable {
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public void updateDespesaParaPagoByMes(@RequestBody Despesa despesa) {
-		Date data = despesa.getDataCompra();
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(2020, 04, 1);
+
+		Date data = calendar.getTime();
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
 		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
 
