@@ -22,12 +22,10 @@ public class MelhorDataCompraDao extends GenericDaoImpl<MelhorDataCompra, Long> 
 	private EntityManager entityManager;
 
 	@SuppressWarnings("deprecation")
-	public MelhorDataCompra getMelhorDataCompra(Usuario usuario, FormaPagamento formaPagamento) {
-		Date data = new Date();
-		
+	public MelhorDataCompra getMelhorDataCompra(Usuario usuario, FormaPagamento formaPagamento, Date data) {
 		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(MelhorDataCompra.class);
 		criteria.add(Restrictions.eq("usuario", usuario));
-		criteria.add(Restrictions.eq("formaPagamento", formaPagamento));		
+		criteria.add(Restrictions.eq("formaPagamento", formaPagamento));
 		criteria.add(Restrictions.between("mesReferencia", DataHelper.getPrimeiroDiaDoMes(data), DataHelper.getUltimoDiaDoMes(data)));
 
 		return (MelhorDataCompra) criteria.uniqueResult();

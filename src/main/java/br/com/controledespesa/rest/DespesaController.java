@@ -3,7 +3,6 @@ package br.com.controledespesa.rest;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -72,7 +71,7 @@ public class DespesaController implements Serializable {
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public Despesa salvar(@RequestBody Despesa despesa) {
-		MelhorDataCompra melhorDataCompra = melhorDataCompraDaoImpl.getMelhorDataCompra(despesa.getUsuario(), despesa.getFormaPagamento());
+		MelhorDataCompra melhorDataCompra = melhorDataCompraDaoImpl.getMelhorDataCompra(despesa.getUsuario(), despesa.getFormaPagamento(), despesa.getDataCompra());
 		if (despesa.getId() != null) {
 			if (melhorDataCompra != null) {
 				despesa.setDataPagamento(despesa.getDataCompra());
@@ -128,12 +127,9 @@ public class DespesaController implements Serializable {
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public void updateDespesaParaPagoByMes(@RequestBody Despesa despesa) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(2019, 01, 1);
-
-		Date data = calendar.getTime();
+		Date data = despesa.getDataCompra();
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
-		Date dataFinal = DataHelper.getUltimoDiaDoMes(new Date());
+		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
 
 		List<Despesa> despesas = despesaDao.findByMes(despesa.getUsuario().getId().toString(), dataInicial, dataFinal);
 		for (Despesa value : despesas) {
