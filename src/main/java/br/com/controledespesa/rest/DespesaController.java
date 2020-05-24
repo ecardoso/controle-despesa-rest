@@ -8,8 +8,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -104,7 +106,7 @@ public class DespesaController implements Serializable {
 		return despesa;
 	}
 
-	@PostMapping(value = "/deleteDespesaById")
+	@DeleteMapping(value = "/deleteDespesaById")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id do usuário", required = true, dataTypeClass = Long.class) })
@@ -113,7 +115,7 @@ public class DespesaController implements Serializable {
 		delete(despesa);
 	}
 
-	@PostMapping(value = "/deleteDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/deleteDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
@@ -121,7 +123,7 @@ public class DespesaController implements Serializable {
 		despesaDao.delete(despesa);
 	}
 
-	@PostMapping(value = "/updateDespesaParaPagoByMes", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/updateDespesaParaPagoByMes", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "atualizar as despasa para pago do mês referente"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
