@@ -25,9 +25,9 @@ public class MelhorDataCompra {
 
 	@ApiModelProperty(value = "dia do pagamento")
 	private int dataPagamento;
-	
+
 	@ApiModelProperty(value = "mes e referencia")
-	private Date mesReferencia;	
+	private Date mesReferencia;
 
 	@ManyToOne(targetEntity = FormaPagamento.class)
 	@ApiModelProperty(value = "forma de pagamento")

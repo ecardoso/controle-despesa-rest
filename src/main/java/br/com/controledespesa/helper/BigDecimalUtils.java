@@ -22,12 +22,11 @@ import org.springframework.util.StringUtils;
  * </ul>
  *
  * @see java.math.BigDecimal
- *
+ * 
  */
 public final class BigDecimalUtils {
 
 	public static final String BLANK_PARAMETER_MESSAGE = "O valor a ser parseado não pode ser null, vazio (\"\") ou espaço em branco (\" \").";
-
 	public static final String EMPTY_PARAMETER_MESSAGE = "Parâmetro não pode ser nulo.";
 
 	/**
@@ -88,7 +87,6 @@ public final class BigDecimalUtils {
 			decimalFormat.setParseBigDecimal(true);
 
 			return (BigDecimal) decimalFormat.parse(source.trim());
-
 		} catch (ParseException ex) {
 			throw new IllegalArgumentException("Erro ao realizar parse");
 		}
@@ -135,10 +133,8 @@ public final class BigDecimalUtils {
 	 */
 	public static BigDecimal parse(final String source, final boolean lenient, final String pattern) {
 		BigDecimal decimal = null;
-
 		try {
 			decimal = parse(source, pattern);
-
 		} catch (Exception ex) {
 			if (!lenient) {
 				throw new IllegalArgumentException(ex.getMessage(), ex);

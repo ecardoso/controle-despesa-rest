@@ -26,14 +26,14 @@ public class FormaPagamentoController {
 
 	@GetMapping(value = "/findAllFormaPagamento")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de forma de pagamento"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	public List<FormaPagamento> findAll() {
 		return formaPagamentoDao.findAll();
 	}
 
 	@GetMapping(value = "/getFormaPagamento")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna uma forma de pagamento"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id da forma de pagamento", defaultValue = "1", required = true, dataTypeClass = Long.class) })
 	public FormaPagamento getFormaPagamento(@RequestParam(value = "id", defaultValue = "1") Long id) {
 		return formaPagamentoDao.getById(id);
@@ -41,9 +41,10 @@ public class FormaPagamentoController {
 
 	@PostMapping(value = "/saveFormaPagamento", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "salvar forma de pagamento"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "formaPagamento", value = "forma de pagamento", required = true, dataTypeClass = FormaPagamento.class) })
 	public FormaPagamento save(@RequestBody FormaPagamento formaPagamento) {
+
 		if (formaPagamento.getId() != null) {
 			formaPagamentoDao.update(formaPagamento);
 			return formaPagamento;
@@ -54,7 +55,7 @@ public class FormaPagamentoController {
 
 	@DeleteMapping(value = "/deleteFormaPagamento", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar forma de pagamento"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "formaPagamento", value = "forma de pagamento", required = true, dataTypeClass = FormaPagamento.class) })
 	public void delete(@RequestBody FormaPagamento formaPagamento) {
 		formaPagamentoDao.delete(formaPagamento);

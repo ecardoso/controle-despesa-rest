@@ -28,7 +28,7 @@ public class UsuarioController implements Serializable {
 	private transient UsuarioDao usuarioDao;
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@GetMapping(value = "/findAllUsuario")
 	public List<Usuario> findAll() {
 		return usuarioDao.findAll();
@@ -36,7 +36,7 @@ public class UsuarioController implements Serializable {
 
 	@GetMapping(value = "/getUsuario")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id usuário", defaultValue = "1", required = true, dataTypeClass = Long.class) })
 	public Usuario getUsuario(@RequestParam(value = "id", defaultValue = "1") Long id) {
 		return usuarioDao.getById(id);
@@ -44,16 +44,16 @@ public class UsuarioController implements Serializable {
 
 	@GetMapping(value = "/getUsuarioByEmailAndSenha")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "e-mail do usuário", required = true, dataTypeClass = String.class),
-			@ApiImplicitParam(name = "senha", value = "senha do usuário", required = true, dataTypeClass = String.class) })
+	                        @ApiImplicitParam(name = "senha", value = "senha do usuário", required = true, dataTypeClass = String.class) })
 	public Usuario getUsuarioByEmailAndSenha(@RequestParam(value = "email") String email, @RequestParam(value = "senha") String senha) {
 		return usuarioDao.getUsuarioByEmailAndSenha(email, senha, TipoLoginEnum.SISTEMA);
 	}
 
 	@GetMapping(value = "/getUsuarioByEmail")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "e-mail do usuário", required = true, dataTypeClass = String.class) })
 	public Usuario getUsuarioByEmail(@RequestParam(value = "email") String email) {
 		return usuarioDao.getUsuarioByEmail(email, TipoLoginEnum.SISTEMA);
@@ -61,7 +61,7 @@ public class UsuarioController implements Serializable {
 
 	@PostMapping(value = "/saveUsuario", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "salvar usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "usuario", value = "usuario", required = true, dataTypeClass = Usuario.class) })
 	public Usuario save(@RequestBody Usuario usuario) {
 		usuario.setTipoLogin(TipoLoginEnum.SISTEMA.getChave());

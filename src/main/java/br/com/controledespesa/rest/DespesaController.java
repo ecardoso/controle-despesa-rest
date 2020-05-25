@@ -40,16 +40,16 @@ public class DespesaController implements Serializable {
 
 	@GetMapping(value = "/findAllDespesa")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	public List<Despesa> findAll() {
 		return despesaDao.findAll();
 	}
 
 	@GetMapping(value = "/findDespesaListaByMes")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de despesa do mês"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "usuario", value = "id do usuário", required = true, dataTypeClass = String.class),
-			@ApiImplicitParam(name = "data", value = "data", required = true, dataTypeClass = String.class) })
+	                        @ApiImplicitParam(name = "data", value = "data", required = true, dataTypeClass = String.class) })
 	public List<Despesa> findDespesaListaByMes(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "data") String dataParam) throws ParseException {
 		Date data = DataHelper.converterStringParaDate(dataParam);
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
@@ -60,7 +60,7 @@ public class DespesaController implements Serializable {
 
 	@GetMapping(value = "/getDespesa")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna uma despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id do usuário", defaultValue = "1", required = true, dataTypeClass = Long.class) })
 	public Despesa getDespesa(@RequestParam(value = "id", defaultValue = "1") Long id) {
 		return despesaDao.getById(id);
@@ -69,11 +69,13 @@ public class DespesaController implements Serializable {
 	@SuppressWarnings({ "deprecation" })
 	@PostMapping(value = "/saveDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "salvar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public Despesa salvar(@RequestBody Despesa despesa) {
 		MelhorDataCompra melhorDataCompra = melhorDataCompraDaoImpl.getMelhorDataCompra(despesa.getUsuario(), despesa.getFormaPagamento(), despesa.getDataCompra());
+
 		if (despesa.getId() != null) {
+
 			if (melhorDataCompra != null) {
 				despesa.setDataPagamento(despesa.getDataCompra());
 			}
@@ -82,6 +84,7 @@ public class DespesaController implements Serializable {
 		}
 
 		int quantidadeParcelas = despesa.getQuantidadeParcelas();
+
 		for (int i = 1; i <= quantidadeParcelas; i++) {
 			despesa.setDataPagamento(despesa.getDataCompra());
 
@@ -108,7 +111,7 @@ public class DespesaController implements Serializable {
 
 	@DeleteMapping(value = "/deleteDespesaById")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id do usuário", required = true, dataTypeClass = Long.class) })
 	public void deleteDespesaById(@RequestParam(value = "id") Long id) {
 		Despesa despesa = despesaDao.getById(id);
@@ -117,7 +120,7 @@ public class DespesaController implements Serializable {
 
 	@DeleteMapping(value = "/deleteDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public void delete(@RequestBody Despesa despesa) {
 		despesaDao.delete(despesa);
@@ -125,7 +128,7 @@ public class DespesaController implements Serializable {
 
 	@PutMapping(value = "/updateDespesaParaPagoByMes", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "atualizar as despasa para pago do mês referente"),
-			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	                        @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public void updateDespesaParaPagoByMes(@RequestBody Despesa despesa) {
 		Date data = despesa.getDataCompra();
@@ -133,7 +136,9 @@ public class DespesaController implements Serializable {
 		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
 
 		List<Despesa> despesas = despesaDao.findByMes(despesa.getUsuario().getId().toString(), dataInicial, dataFinal);
+
 		for (Despesa value : despesas) {
+
 			if (!value.isPago()) {
 				value.setPago(true);
 				despesaDao.update(value);

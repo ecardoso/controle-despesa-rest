@@ -54,8 +54,8 @@ public class Calculadora {
 		if (valor == null) {
 			return null;
 		}
-		valor = defaultBigDecimal(valor);
 
+		valor = defaultBigDecimal(valor);
 		return valor.divide(UM, escala, arredondamento);
 	}
 
@@ -67,6 +67,7 @@ public class Calculadora {
 		if (valor == null) {
 			return false;
 		}
+
 		return valor.compareTo(VALOR_SIGNIFICATIVO) >= 0;
 	}
 
@@ -178,6 +179,6 @@ public class Calculadora {
 
 	public static BigDecimal restoDivisao(double vlrFinanceiroTotal, double vlrMultiplo) {
 		return BigDecimal.valueOf(vlrFinanceiroTotal).setScale(ESCALA_PRECISAO_BAIXA, BigDecimal.ROUND_HALF_UP)
-				.remainder(BigDecimal.valueOf(vlrMultiplo).setScale(ESCALA_PRECISAO_BAIXA, BigDecimal.ROUND_HALF_UP));
+								.remainder(BigDecimal.valueOf(vlrMultiplo).setScale(ESCALA_PRECISAO_BAIXA, BigDecimal.ROUND_HALF_UP));
 	}
 }

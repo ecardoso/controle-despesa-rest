@@ -22,6 +22,6 @@ public class SwaggerConfig {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder().title("Spring Boot REST API").description("Controde das despesas").license("Apache License Version 2.0").licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
-				.build();
+								.build();
 	}
 }
