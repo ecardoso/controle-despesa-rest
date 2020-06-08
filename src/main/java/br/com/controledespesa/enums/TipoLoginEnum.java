@@ -8,15 +8,11 @@ public enum TipoLoginEnum {
 	private Integer chave;
 
 	private TipoLoginEnum(Integer chave) {
-		this.setChave(chave);
+		this.chave = chave;
 	}
 
 	public Integer getChave() {
 		return chave;
-	}
-
-	private void setChave(Integer chave) {
-		this.chave = chave;
 	}
 
 }
