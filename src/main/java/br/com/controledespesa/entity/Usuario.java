@@ -6,9 +6,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import br.com.controledespesa.enums.TipoLoginEnum;
 import io.swagger.annotations.ApiModelProperty;
 
+@JsonPropertyOrder({ "id", "tipoLogin", "nome", "email" })
 @Entity(name = "USUARIO")
 public class Usuario {
 
@@ -24,6 +28,7 @@ public class Usuario {
 	@ApiModelProperty(value = "e-mail do usuário")
 	private String email;
 
+	@JsonIgnore
 	@ApiModelProperty(value = "senha do usuário")
 	private String senha;
 
