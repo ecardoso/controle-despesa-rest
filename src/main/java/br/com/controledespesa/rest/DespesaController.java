@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,16 +41,16 @@ public class DespesaController implements Serializable {
 
 	@GetMapping(value = "/findAllDespesa")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	public List<Despesa> findAll() {
 		return despesaDao.findAll();
 	}
 
 	@GetMapping(value = "/findDespesaListaByMes")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de despesa do mês"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "usuario", value = "id do usuário", required = true, dataTypeClass = String.class),
-	                        @ApiImplicitParam(name = "data", value = "data", required = true, dataTypeClass = String.class) })
+							@ApiImplicitParam(name = "data", value = "data", required = true, dataTypeClass = String.class) })
 	public List<Despesa> findDespesaListaByMes(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "data") String dataParam) throws ParseException {
 		Date data = DataHelper.converterStringParaDate(dataParam);
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
@@ -60,7 +61,7 @@ public class DespesaController implements Serializable {
 
 	@GetMapping(value = "/getDespesa")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna uma despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id do usuário", defaultValue = "1", required = true, dataTypeClass = Long.class) })
 	public Despesa getDespesa(@RequestParam(value = "id", defaultValue = "1") Long id) {
 		return despesaDao.getById(id);
@@ -69,7 +70,7 @@ public class DespesaController implements Serializable {
 	@SuppressWarnings({ "deprecation" })
 	@PostMapping(value = "/saveDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "salvar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public Despesa salvar(@RequestBody Despesa despesa) {
 		MelhorDataCompra melhorDataCompra = melhorDataCompraDaoImpl.getMelhorDataCompra(despesa.getUsuario(), despesa.getFormaPagamento(), despesa.getDataCompra());
@@ -111,26 +112,30 @@ public class DespesaController implements Serializable {
 
 	@DeleteMapping(value = "/deleteDespesaById")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id do usuário", required = true, dataTypeClass = Long.class) })
-	public void deleteDespesaById(@RequestParam(value = "id") Long id) {
+	public ResponseEntity<Despesa> deleteDespesaById(@RequestParam(value = "id") Long id) {
 		Despesa despesa = despesaDao.getById(id);
 		delete(despesa);
+
+		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping(value = "/deleteDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
-	public void delete(@RequestBody Despesa despesa) {
+	public ResponseEntity<Despesa> delete(@RequestBody Despesa despesa) {
 		despesaDao.delete(despesa);
+
+		return ResponseEntity.ok().build();
 	}
 
 	@PutMapping(value = "/updateDespesaParaPagoByMes", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "atualizar as despasa para pago do mês referente"),
-	                        @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
-	public void updateDespesaParaPagoByMes(@RequestBody Despesa despesa) {
+	public ResponseEntity<Despesa> updateDespesaParaPagoByMes(@RequestBody Despesa despesa) {
 		Date data = despesa.getDataCompra();
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
 		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
@@ -144,6 +149,8 @@ public class DespesaController implements Serializable {
 				despesaDao.update(value);
 			}
 		}
+
+		return ResponseEntity.ok().build();
 	}
 
 	private Despesa novaDespesa(Despesa despesa) {
