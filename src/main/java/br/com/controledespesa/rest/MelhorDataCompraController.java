@@ -1,5 +1,8 @@
 package br.com.controledespesa.rest;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,10 @@ public class MelhorDataCompraController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de melhor data de compra"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	public List<MelhorDataCompra> findAll() {
-		return melhorDataCompraDao.findAll();
+		List<MelhorDataCompra> melhoresDataCompra = melhorDataCompraDao.findAll();
+		melhoresDataCompra.stream().forEach(dtCompra -> addLinkByMelhorDataCompra(dtCompra));
+
+		return melhoresDataCompra;
 	}
 
 	@GetMapping(value = "/getMelhorDataCompra")
@@ -37,7 +43,10 @@ public class MelhorDataCompraController {
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id da melhor data de compra", defaultValue = "1", required = true, dataTypeClass = Long.class) })
 	public MelhorDataCompra getMelhorDataCompra(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		return melhorDataCompraDao.getById(id);
+		MelhorDataCompra melhorDataCompra = melhorDataCompraDao.getById(id);
+		addLinkByMelhorDataCompra(melhorDataCompra);
+
+		return melhorDataCompra;
 	}
 
 	@PostMapping(value = "/saveMelhorDataCompra", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -51,6 +60,8 @@ public class MelhorDataCompraController {
 			melhorDataCompraDao.update(melhorDataCompra);
 		}
 
+		addLinkByMelhorDataCompra(melhorDataCompra);
+
 		return melhorDataCompra;
 	}
 
@@ -62,6 +73,16 @@ public class MelhorDataCompraController {
 		melhorDataCompraDao.delete(melhorDataCompra);
 
 		return ResponseEntity.ok().build();
+	}
+
+	private void addLinkByMelhorDataCompra(MelhorDataCompra melhorDataCompra) {
+		if (melhorDataCompra == null) {
+			return;
+		}
+
+		melhorDataCompra.add(linkTo(methodOn(MelhorDataCompraController.class).getMelhorDataCompra(melhorDataCompra.getKey())).withRel("get-MelhorDataCompra"));
+		melhorDataCompra.add(linkTo(methodOn(FormaPagamentoController.class).getFormaPagamento(melhorDataCompra.getFormaPagamento().getKey())).withRel("get-FormaPagamento"));
+		melhorDataCompra.add(linkTo(methodOn(UsuarioController.class).getUsuario(melhorDataCompra.getUsuario().getKey())).withRel("get-Usuario"));
 	}
 
 }

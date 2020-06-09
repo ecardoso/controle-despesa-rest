@@ -1,5 +1,8 @@
 package br.com.controledespesa.rest;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,10 @@ public class FormaPagamentoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de forma de pagamento"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	public List<FormaPagamento> findAll() {
-		return formaPagamentoDao.findAll();
+		List<FormaPagamento> formasPagamento = formaPagamentoDao.findAll();
+		formasPagamento.stream().forEach(form -> addLinkByFormaPagamento(form));
+
+		return formasPagamento;
 	}
 
 	@GetMapping(value = "/getFormaPagamento")
@@ -37,7 +43,10 @@ public class FormaPagamentoController {
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id da forma de pagamento", defaultValue = "1", required = true, dataTypeClass = Long.class) })
 	public FormaPagamento getFormaPagamento(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		return formaPagamentoDao.getById(id);
+		FormaPagamento formaPagamento = formaPagamentoDao.getById(id);
+		addLinkByFormaPagamento(formaPagamento);
+
+		return formaPagamento;
 	}
 
 	@PostMapping(value = "/saveFormaPagamento", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -51,7 +60,10 @@ public class FormaPagamentoController {
 			return formaPagamento;
 		}
 
-		return formaPagamentoDao.save(formaPagamento);
+		formaPagamentoDao.save(formaPagamento);
+		addLinkByFormaPagamento(formaPagamento);
+
+		return formaPagamento;
 	}
 
 	@DeleteMapping(value = "/deleteFormaPagamento", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -62,6 +74,14 @@ public class FormaPagamentoController {
 		formaPagamentoDao.delete(formaPagamento);
 
 		return ResponseEntity.ok().build();
+	}
+
+	private void addLinkByFormaPagamento(FormaPagamento formaPagamento) {
+		if (formaPagamento == null) {
+			return;
+		}
+
+		formaPagamento.add(linkTo(methodOn(FormaPagamentoController.class).getFormaPagamento(formaPagamento.getKey())).withRel("get-FormaPagamento"));
 	}
 
 }

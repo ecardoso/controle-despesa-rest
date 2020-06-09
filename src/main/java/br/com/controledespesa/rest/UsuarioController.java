@@ -100,7 +100,7 @@ public class UsuarioController implements Serializable {
 		}
 
 		addLinkByGetUsuario(usuario);
-		usuario.add(linkTo(methodOn(UsuarioController.class).getUsuarioByEmail(usuario.getEmail())).withSelfRel());
+		usuario.add(linkTo(methodOn(UsuarioController.class).getUsuarioByEmail(usuario.getEmail())).withRel("get-Usuario"));
 	}
 
 }

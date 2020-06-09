@@ -1,39 +1,35 @@
 package br.com.controledespesa.entity;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-import io.swagger.annotations.ApiModelProperty;
+import org.springframework.hateoas.ResourceSupport;
 
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = "FORMA_PAGAMENTO")
-public class FormaPagamento {
+public class FormaPagamento extends ResourceSupport implements Serializable {
+
+	private static final long serialVersionUID = 3745908541474026118L;
 
 	@Id
+	@Column(name = "id")
 	@SequenceGenerator(name = "FORMA_PAGAMENTO_ID", sequenceName = "FORMA_PAGAMENTO_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FORMA_PAGAMENTO_ID")
 	@ApiModelProperty(value = "id forma de pagamento")
-	private Long id;
+	private Long key;
 
 	@ApiModelProperty(value = "descrição da forma de pagamento")
 	private String descricao;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
 
 }

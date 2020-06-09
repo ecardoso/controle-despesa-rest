@@ -1,8 +1,10 @@
 package br.com.controledespesa.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,16 +12,25 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import io.swagger.annotations.ApiModelProperty;
+import org.springframework.hateoas.ResourceSupport;
 
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity(name = "DESPESA")
-public class Despesa {
+public class Despesa extends ResourceSupport implements Serializable {
+
+	private static final long serialVersionUID = 8493198584033763957L;
 
 	@Id
+	@Column(name = "id")
 	@SequenceGenerator(name = "DESPESA_ID", sequenceName = "DESPESA_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DESPESA_ID")
 	@ApiModelProperty(value = "id despesa")
-	private Long id;
+	private Long key;
 
 	@ManyToOne(targetEntity = Categoria.class)
 	@ApiModelProperty(value = "categoria")
@@ -53,93 +64,5 @@ public class Despesa {
 
 	@ApiModelProperty(value = "quantidade de parcelas")
 	private int quantidadeParcelas;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Categoria getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
-
-	public Date getDataCompra() {
-		return dataCompra;
-	}
-
-	public void setDataCompra(Date dataCompra) {
-		this.dataCompra = dataCompra;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public BigDecimal getValor() {
-		return valor;
-	}
-
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public boolean isDespesaFixa() {
-		return despesaFixa;
-	}
-
-	public void setDespesaFixa(boolean despesaFixa) {
-		this.despesaFixa = despesaFixa;
-	}
-
-	public boolean isPago() {
-		return pago;
-	}
-
-	public void setPago(boolean pago) {
-		this.pago = pago;
-	}
-
-	public FormaPagamento getFormaPagamento() {
-		return formaPagamento;
-	}
-
-	public void setFormaPagamento(FormaPagamento formaPagamento) {
-		this.formaPagamento = formaPagamento;
-	}
-
-	public int getQuantidadeParcelas() {
-		return quantidadeParcelas;
-	}
-
-	public void setQuantidadeParcelas(int quantidadeParcelas) {
-		this.quantidadeParcelas = quantidadeParcelas;
-	}
-
-	public Date getDataPagamento() {
-		return dataPagamento;
-	}
-
-	public void setDataPagamento(Date dataPagamento) {
-		this.dataPagamento = dataPagamento;
-	}
 
 }

@@ -1,5 +1,8 @@
 package br.com.controledespesa.rest;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -43,7 +46,10 @@ public class DespesaController implements Serializable {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	public List<Despesa> findAll() {
-		return despesaDao.findAll();
+		List<Despesa> despesas = despesaDao.findAll();
+		despesas.stream().forEach(desp -> addLinkByDespesa(desp));
+
+		return despesas;
 	}
 
 	@GetMapping(value = "/findDespesaListaByMes")
@@ -56,7 +62,10 @@ public class DespesaController implements Serializable {
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
 		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
 
-		return despesaDao.findByMes(idUsuario, dataInicial, dataFinal);
+		List<Despesa> despesas = despesaDao.findByMes(idUsuario, dataInicial, dataFinal);
+		despesas.stream().forEach(desp -> addLinkByDespesa(desp));
+
+		return despesas;
 	}
 
 	@GetMapping(value = "/getDespesa")
@@ -64,7 +73,10 @@ public class DespesaController implements Serializable {
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id do usuário", defaultValue = "1", required = true, dataTypeClass = Long.class) })
 	public Despesa getDespesa(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		return despesaDao.getById(id);
+		Despesa despesa = despesaDao.getById(id);
+		addLinkByDespesa(despesa);
+
+		return despesa;
 	}
 
 	@SuppressWarnings({ "deprecation" })
@@ -107,6 +119,7 @@ public class DespesaController implements Serializable {
 			despesaDao.save(novaDespesa);
 		}
 
+		addLinkByDespesa(despesa);
 		return despesa;
 	}
 
@@ -167,6 +180,17 @@ public class DespesaController implements Serializable {
 		novaDespesa.setQuantidadeParcelas(despesa.getQuantidadeParcelas());
 
 		return novaDespesa;
+	}
+
+	private void addLinkByDespesa(Despesa despesa) {
+		if (despesa == null) {
+			return;
+		}
+
+		despesa.add(linkTo(methodOn(DespesaController.class).getDespesa(despesa.getKey())).withRel("get-Despesa"));
+		despesa.add(linkTo(methodOn(CategoriaController.class).getCategoria(despesa.getCategoria().getKey())).withRel("get-Categoria"));
+		despesa.add(linkTo(methodOn(UsuarioController.class).getUsuario(despesa.getUsuario().getKey())).withRel("get-Usuario"));
+		despesa.add(linkTo(methodOn(FormaPagamentoController.class).getFormaPagamento(despesa.getFormaPagamento().getKey())).withRel("get-FormaPagamento"));
 	}
 
 }
