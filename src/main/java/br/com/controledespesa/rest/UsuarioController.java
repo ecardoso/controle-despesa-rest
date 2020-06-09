@@ -1,5 +1,8 @@
 package br.com.controledespesa.rest;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,44 +31,76 @@ public class UsuarioController implements Serializable {
 	private transient UsuarioDao usuarioDao;
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@GetMapping(value = "/findAllUsuario")
 	public List<Usuario> findAll() {
-		return usuarioDao.findAll();
+		List<Usuario> usuarios = usuarioDao.findAll();
+		usuarios.stream().forEach(usu -> addLinkByGetUsuario(usu));
+
+		return usuarios;
 	}
 
 	@GetMapping(value = "/getUsuario")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id usuário", defaultValue = "1", required = true, dataTypeClass = Long.class) })
 	public Usuario getUsuario(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		return usuarioDao.getById(id);
+		Usuario usuario = usuarioDao.getById(id);
+		addLinkByGetUsuario(usuario);
+
+		return usuario;
 	}
 
 	@GetMapping(value = "/getUsuarioByEmailAndSenha")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "e-mail do usuário", required = true, dataTypeClass = String.class),
-	                        @ApiImplicitParam(name = "senha", value = "senha do usuário", required = true, dataTypeClass = String.class) })
+							@ApiImplicitParam(name = "senha", value = "senha do usuário", required = true, dataTypeClass = String.class) })
 	public Usuario getUsuarioByEmailAndSenha(@RequestParam(value = "email") String email, @RequestParam(value = "senha") String senha) {
-		return usuarioDao.getUsuarioByEmailAndSenha(email, senha, TipoLoginEnum.SISTEMA);
+		Usuario usuario = usuarioDao.getUsuarioByEmailAndSenha(email, senha, TipoLoginEnum.SISTEMA);
+		addLinkByGetUsuario(usuario);
+
+		return usuario;
 	}
 
 	@GetMapping(value = "/getUsuarioByEmail")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "e-mail do usuário", required = true, dataTypeClass = String.class) })
 	public Usuario getUsuarioByEmail(@RequestParam(value = "email") String email) {
-		return usuarioDao.getUsuarioByEmail(email, TipoLoginEnum.SISTEMA);
+		Usuario usuario = usuarioDao.getUsuarioByEmail(email, TipoLoginEnum.SISTEMA);
+		addLinkByGetUsuarioAndEmail(usuario);
+
+		return usuario;
 	}
 
 	@PostMapping(value = "/saveUsuario", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "salvar usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-	                        @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "usuario", value = "usuario", required = true, dataTypeClass = Usuario.class) })
 	public Usuario save(@RequestBody Usuario usuario) {
 		usuario.setTipoLogin(TipoLoginEnum.SISTEMA.getChave());
-		return usuarioDao.save(usuario);
+		usuarioDao.save(usuario);
+		addLinkByGetUsuarioAndEmail(usuario);
+
+		return usuario;
+	}
+
+	private void addLinkByGetUsuario(Usuario usuario) {
+		if (usuario == null) {
+			return;
+		}
+
+		usuario.add(linkTo(methodOn(UsuarioController.class).getUsuario(usuario.getKey())).withSelfRel());
+	}
+
+	private void addLinkByGetUsuarioAndEmail(Usuario usuario) {
+		if (usuario == null) {
+			return;
+		}
+
+		addLinkByGetUsuario(usuario);
+		usuario.add(linkTo(methodOn(UsuarioController.class).getUsuarioByEmail(usuario.getEmail())).withSelfRel());
 	}
 
 }
