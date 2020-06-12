@@ -11,6 +11,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -29,6 +30,7 @@ public class Usuario extends ResourceSupport implements Serializable {
 
 	@Id
 	@Column(name = "id")
+	@JsonAlias(value = "id")
 	@SequenceGenerator(name = "USUARIO_ID", sequenceName = "USUARIO_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_ID")
 	@ApiModelProperty(value = "id usuário")

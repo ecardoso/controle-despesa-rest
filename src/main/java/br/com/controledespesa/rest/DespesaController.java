@@ -26,12 +26,14 @@ import br.com.controledespesa.helper.Calculadora;
 import br.com.controledespesa.helper.DataHelper;
 import br.com.controledespesa.repository.DespesaDao;
 import br.com.controledespesa.repository.MelhorDataCompraDao;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
+@Api(value = "Despesa Endpoint", tags = { "DespesaEndpoint" })
 public class DespesaController implements Serializable {
 
 	private static final long serialVersionUID = 3927947824384666134L;

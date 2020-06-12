@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.controledespesa.entity.Usuario;
 import br.com.controledespesa.enums.TipoLoginEnum;
 import br.com.controledespesa.repository.UsuarioDao;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
+@Api(value = "Usuario Endpoint", tags = { "UsuarioEndpoint" })
 public class UsuarioController implements Serializable {
 
 	private static final long serialVersionUID = -3654939268019465862L;

@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controledespesa.entity.FormaPagamento;
 import br.com.controledespesa.repository.FormaPagamentoDao;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
+@Api(value = "Forma Pagamento Endpoint", tags = { "FormaPagamentoEndpoint" })
 public class FormaPagamentoController {
 
 	@Autowired

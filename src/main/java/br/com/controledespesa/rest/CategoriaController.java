@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controledespesa.entity.Categoria;
 import br.com.controledespesa.repository.CategoriaDao;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
+@Api(value = "Categoria Endpoint", tags = { "CategoriaEndpoint" })
 public class CategoriaController {
 
 	@Autowired

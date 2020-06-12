@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.controledespesa.entity.MelhorDataCompra;
 import br.com.controledespesa.repository.MelhorDataCompraDao;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
+@Api(value = "Melhor Data Compra Endpoint", tags = { "MelhorDataCompraEndpoint" })
 public class MelhorDataCompraController {
 
 	@Autowired

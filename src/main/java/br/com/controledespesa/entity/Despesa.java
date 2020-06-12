@@ -14,6 +14,8 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,6 +29,7 @@ public class Despesa extends ResourceSupport implements Serializable {
 
 	@Id
 	@Column(name = "id")
+	@JsonAlias(value = "id")
 	@SequenceGenerator(name = "DESPESA_ID", sequenceName = "DESPESA_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DESPESA_ID")
 	@ApiModelProperty(value = "id despesa")
