@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.hateoas.ResourceSupport;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class FormaPagamento extends ResourceSupport implements Serializable {
 
 	@Id
 	@Column(name = "id")
-	@JsonAlias(value = "id")
+	@JsonProperty("id")
 	@SequenceGenerator(name = "FORMA_PAGAMENTO_ID", sequenceName = "FORMA_PAGAMENTO_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FORMA_PAGAMENTO_ID")
 	@ApiModelProperty(value = "id forma de pagamento")

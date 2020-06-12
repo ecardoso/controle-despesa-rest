@@ -13,7 +13,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.hateoas.ResourceSupport;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,7 +28,7 @@ public class MelhorDataCompra extends ResourceSupport implements Serializable {
 
 	@Id
 	@Column(name = "id")
-	@JsonAlias(value = "id")
+	@JsonProperty("id")
 	@SequenceGenerator(name = "MELHOR_DATA_COMPRA_ID", sequenceName = "MELHOR_DATA_COMPRA_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MELHOR_DATA_COMPRA_ID")
 	@ApiModelProperty(value = "id melhor data da compra")

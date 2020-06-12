@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.hateoas.ResourceSupport;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,7 +28,7 @@ public class Categoria extends ResourceSupport implements Serializable {
 
 	@Id
 	@Column(name = "id")
-	@JsonAlias(value = "id")
+	@JsonProperty("id")
 	@SequenceGenerator(name = "CATEGORIA_ID", sequenceName = "CATEGORIA_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CATEGORIA_ID")
 	@ApiModelProperty(value = "id categoria")
