@@ -65,7 +65,25 @@ public class DespesaController implements Serializable {
 		Date dataInicial = DataHelper.converterStringParaDate(pDataInicial);
 		Date dataFinal = DataHelper.converterStringParaDate(pDataFinal);
 
-		List<Despesa> despesas = despesaDao.findByMes(idUsuario, dataInicial, dataFinal);
+		List<Despesa> despesas = despesaDao.findByMes(Long.parseLong(idUsuario), dataInicial, dataFinal);
+		despesas.stream().forEach(desp -> addLinkByDespesa(desp));
+
+		return despesas;
+	}
+
+	@GetMapping(value = "/findDespesaListaByMesFormaPagamento")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de despesa do mês"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "usuario", value = "id do usuário", required = true, dataTypeClass = String.class),
+							@ApiImplicitParam(name = "data", value = "data", required = true, dataTypeClass = String.class),
+							@ApiImplicitParam(name = "formaPagamento", value = "forma pagamento", required = true, dataTypeClass = String.class) })
+	public List<Despesa> findDespesaListaByMesFormaPagamento(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "data") String pData,
+							@RequestParam(value = "formaPagamento") String formaPagamento) throws ParseException {
+		Date data = DataHelper.converterStringParaDate(pData);
+		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
+		Date dataFinal = DataHelper.getUltimoDiaDoMes(dataInicial);
+
+		List<Despesa> despesas = despesaDao.findByMesFormaPagamento(Long.parseLong(idUsuario), Long.parseLong(formaPagamento), dataInicial, dataFinal);
 		despesas.stream().forEach(desp -> addLinkByDespesa(desp));
 
 		return despesas;
@@ -156,7 +174,7 @@ public class DespesaController implements Serializable {
 		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
 		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
 
-		List<Despesa> despesas = despesaDao.findByMes(despesa.getUsuario().getId().toString(), dataInicial, dataFinal);
+		List<Despesa> despesas = despesaDao.findByMes(despesa.getUsuario().getKey(), dataInicial, dataFinal);
 
 		for (Despesa value : despesas) {
 

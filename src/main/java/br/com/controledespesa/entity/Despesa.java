@@ -44,7 +44,7 @@ public class Despesa extends ResourceSupport implements Serializable {
 	private Usuario usuario;
 
 	@ManyToOne(targetEntity = FormaPagamento.class)
-	@ApiModelProperty(value = "forma dr pagamento")
+	@ApiModelProperty(value = "forma de pagamento")
 	private FormaPagamento formaPagamento;
 
 	@ApiModelProperty(value = "data da compra")
