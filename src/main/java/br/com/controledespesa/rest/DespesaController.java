@@ -58,11 +58,12 @@ public class DespesaController implements Serializable {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de despesa do mês"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "usuario", value = "id do usuário", required = true, dataTypeClass = String.class),
-							@ApiImplicitParam(name = "data", value = "data", required = true, dataTypeClass = String.class) })
-	public List<Despesa> findDespesaListaByMes(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "data") String dataParam) throws ParseException {
-		Date data = DataHelper.converterStringParaDate(dataParam);
-		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
-		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
+							@ApiImplicitParam(name = "dataInicial", value = "data inicial", required = true, dataTypeClass = String.class),
+							@ApiImplicitParam(name = "dataFinal", value = "data final", required = true, dataTypeClass = String.class) })
+	public List<Despesa> findDespesaListaByMes(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "dataInicial") String pDataInicial,
+							@RequestParam(value = "dataFinal") String pDataFinal) throws ParseException {
+		Date dataInicial = DataHelper.converterStringParaDate(pDataInicial);
+		Date dataFinal = DataHelper.converterStringParaDate(pDataFinal);
 
 		List<Despesa> despesas = despesaDao.findByMes(idUsuario, dataInicial, dataFinal);
 		despesas.stream().forEach(desp -> addLinkByDespesa(desp));
