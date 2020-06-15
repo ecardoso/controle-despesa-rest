@@ -57,7 +57,7 @@ public class FormaPagamentoController {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "formaPagamento", value = "forma de pagamento", required = true, dataTypeClass = FormaPagamento.class) })
 	public FormaPagamento save(@RequestBody FormaPagamento formaPagamento) {
 
-		if (formaPagamento.getId() != null) {
+		if (formaPagamento.getKey() != null) {
 			formaPagamentoDao.update(formaPagamento);
 			return formaPagamento;
 		}

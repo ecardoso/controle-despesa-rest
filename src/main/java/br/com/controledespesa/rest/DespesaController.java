@@ -108,7 +108,7 @@ public class DespesaController implements Serializable {
 	public Despesa salvar(@RequestBody Despesa despesa) {
 		MelhorDataCompra melhorDataCompra = melhorDataCompraDaoImpl.getMelhorDataCompra(despesa.getUsuario(), despesa.getFormaPagamento(), despesa.getDataCompra());
 
-		if (despesa.getId() != null) {
+		if (despesa.getKey() != null) {
 
 			if (melhorDataCompra != null) {
 				despesa.setDataPagamento(despesa.getDataCompra());
