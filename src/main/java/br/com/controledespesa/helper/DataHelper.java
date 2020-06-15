@@ -67,4 +67,14 @@ public class DataHelper {
 		return dataInicial.after(dataFinal);
 	}
 
+	public static Date setHora(Date data, int hora, int minuto, int segundo) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(data);
+		calendar.set(Calendar.HOUR, hora);
+		calendar.set(Calendar.MINUTE, minuto);
+		calendar.set(Calendar.SECOND, segundo);
+
+		return calendar.getTime();
+	}
+
 }

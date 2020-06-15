@@ -64,6 +64,7 @@ public class DespesaController implements Serializable {
 							@RequestParam(value = "dataFinal") String pDataFinal) throws ParseException {
 		Date dataInicial = DataHelper.converterStringParaDate(pDataInicial);
 		Date dataFinal = DataHelper.converterStringParaDate(pDataFinal);
+		dataFinal = DataHelper.setHora(dataFinal, 23, 59, 59);
 
 		List<Despesa> despesas = despesaDao.findByMes(Long.parseLong(idUsuario), dataInicial, dataFinal);
 		despesas.stream().forEach(desp -> addLinkByDespesa(desp));
