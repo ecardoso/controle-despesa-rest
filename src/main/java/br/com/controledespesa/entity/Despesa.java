@@ -2,7 +2,7 @@ package br.com.controledespesa.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,10 +48,10 @@ public class Despesa extends ResourceSupport implements Serializable {
 	private FormaPagamento formaPagamento;
 
 	@ApiModelProperty(value = "data da compra")
-	private Date dataCompra;
+	private LocalDateTime dataCompra;
 
 	@ApiModelProperty(value = "data de pagamento")
-	private Date dataPagamento;
+	private LocalDateTime dataPagamento;
 
 	@ApiModelProperty(value = "descrição da despesa")
 	private String descricao;

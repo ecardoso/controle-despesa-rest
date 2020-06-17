@@ -1,6 +1,6 @@
 package br.com.controledespesa.repository;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -23,7 +23,7 @@ public class DespesaDao extends GenericDaoImpl<Despesa, Long> {
 	private EntityManager entityManager;
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public List<Despesa> findByMes(Long idUsuario, Date dataInicial, Date dataFinal) {
+	public List<Despesa> findByMes(Long idUsuario, LocalDateTime dataInicial, LocalDateTime dataFinal) {
 		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Despesa.class);
 		criteria.add(Restrictions.eq("usuario.id", idUsuario));
 		criteria.add(Restrictions.between(DATA_PAGAMENTO, dataInicial, dataFinal));
@@ -34,7 +34,7 @@ public class DespesaDao extends GenericDaoImpl<Despesa, Long> {
 	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public List<Despesa> findByMesFormaPagamento(Long idUsuario, Long idFormaPagamento, Date dataInicial, Date dataFinal) {
+	public List<Despesa> findByMesFormaPagamento(Long idUsuario, Long idFormaPagamento, LocalDateTime dataInicial, LocalDateTime dataFinal) {
 		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(Despesa.class);
 		criteria.add(Restrictions.eq("usuario.id", idUsuario));
 		criteria.add(Restrictions.between(DATA_PAGAMENTO, dataInicial, dataFinal));

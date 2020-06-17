@@ -29,7 +29,7 @@ public class GoogleAuthenticator {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "nome", value = "nome do usuário", required = true, dataTypeClass = String.class),
 							@ApiImplicitParam(name = "email", value = "e-mail do usuário", required = true, dataTypeClass = String.class) })
 	public Usuario getLogin(@RequestParam(value = "nome") String nome, @RequestParam(value = "email") String email) {
-		logger.info(String.format("email: %s, nome: %s", email, nome));
+		logger.info("email: {} nome: {}", email, nome);
 
 		Usuario usuario = usuarioDao.getUsuarioByEmail(email, TipoLoginEnum.GOOGLE);
 		if (usuario == null) {

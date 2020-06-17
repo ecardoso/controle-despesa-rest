@@ -1,7 +1,7 @@
 package br.com.controledespesa.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +41,7 @@ public class MelhorDataCompra extends ResourceSupport implements Serializable {
 	private int dataPagamento;
 
 	@ApiModelProperty(value = "mes e referencia")
-	private Date mesReferencia;
+	private LocalDateTime mesReferencia;
 
 	@ManyToOne(targetEntity = FormaPagamento.class)
 	@ApiModelProperty(value = "forma de pagamento")

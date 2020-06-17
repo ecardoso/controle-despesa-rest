@@ -5,8 +5,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +60,9 @@ public class DespesaController implements Serializable {
 							@ApiImplicitParam(name = "dataInicial", value = "data inicial", required = true, dataTypeClass = String.class),
 							@ApiImplicitParam(name = "dataFinal", value = "data final", required = true, dataTypeClass = String.class) })
 	public List<Despesa> findDespesaListaByMes(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "dataInicial") String pDataInicial,
-							@RequestParam(value = "dataFinal") String pDataFinal) throws ParseException {
-		Date dataInicial = DataHelper.converterStringParaDate(pDataInicial);
-		Date dataFinal = DataHelper.converterStringParaDate(pDataFinal);
+							@RequestParam(value = "dataFinal") String pDataFinal) {
+		LocalDateTime dataInicial = DataHelper.converterStringParaDate(pDataInicial);
+		LocalDateTime dataFinal = DataHelper.converterStringParaDate(pDataFinal);
 		dataFinal = DataHelper.setHora(dataFinal, 23, 59, 59);
 
 		List<Despesa> despesas = despesaDao.findByMes(Long.parseLong(idUsuario), dataInicial, dataFinal);
@@ -79,10 +78,10 @@ public class DespesaController implements Serializable {
 							@ApiImplicitParam(name = "data", value = "data", required = true, dataTypeClass = String.class),
 							@ApiImplicitParam(name = "formaPagamento", value = "forma pagamento", required = true, dataTypeClass = String.class) })
 	public List<Despesa> findDespesaListaByMesFormaPagamento(@RequestParam(value = "usuario") String idUsuario, @RequestParam(value = "data") String pData,
-							@RequestParam(value = "formaPagamento") String formaPagamento) throws ParseException {
-		Date data = DataHelper.converterStringParaDate(pData);
-		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
-		Date dataFinal = DataHelper.getUltimoDiaDoMes(dataInicial);
+							@RequestParam(value = "formaPagamento") String formaPagamento) {
+		LocalDateTime data = DataHelper.converterStringParaDate(pData);
+		LocalDateTime dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
+		LocalDateTime dataFinal = DataHelper.getUltimoDiaDoMes(dataInicial);
 
 		List<Despesa> despesas = despesaDao.findByMesFormaPagamento(Long.parseLong(idUsuario), Long.parseLong(formaPagamento), dataInicial, dataFinal);
 		despesas.stream().forEach(desp -> addLinkByDespesa(desp));
@@ -101,7 +100,6 @@ public class DespesaController implements Serializable {
 		return despesa;
 	}
 
-	@SuppressWarnings({ "deprecation" })
 	@PostMapping(value = "/saveDespesa", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "salvar a despesa"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
@@ -110,7 +108,6 @@ public class DespesaController implements Serializable {
 		MelhorDataCompra melhorDataCompra = melhorDataCompraDaoImpl.getMelhorDataCompra(despesa.getUsuario(), despesa.getFormaPagamento(), despesa.getDataCompra());
 
 		if (despesa.getKey() != null) {
-
 			if (melhorDataCompra != null) {
 				despesa.setDataPagamento(despesa.getDataCompra());
 			}
@@ -119,7 +116,6 @@ public class DespesaController implements Serializable {
 		}
 
 		int quantidadeParcelas = despesa.getQuantidadeParcelas();
-
 		for (int i = 1; i <= quantidadeParcelas; i++) {
 			despesa.setDataPagamento(despesa.getDataCompra());
 
@@ -132,10 +128,9 @@ public class DespesaController implements Serializable {
 			novaDespesa.setValor(Calculadora.dividir(despesa.getValor(), new BigDecimal(quantidadeParcelas)));
 
 			if (melhorDataCompra != null) {
-				boolean melhorData = melhorDataCompra.getDataMelhorCompra() <= despesa.getDataCompra().getDate();
-				int addMes = melhorData ? 1 : 0;
-
-				novaDespesa.setDataPagamento(DataHelper.addMesByDia(melhorDataCompra.getDataPagamento(), despesa.getDataCompra().getMonth(), i + addMes));
+				boolean melhorData = melhorDataCompra.getDataMelhorCompra() <= despesa.getDataCompra().getDayOfMonth();
+				long addMes = melhorData ? 1l : 0l;
+				novaDespesa.setDataPagamento(despesa.getDataCompra().withDayOfMonth(melhorDataCompra.getDataPagamento()).plusMonths(i + addMes));
 			}
 
 			despesaDao.save(novaDespesa);
@@ -171,9 +166,9 @@ public class DespesaController implements Serializable {
 							@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "despesa", value = "despesa", required = true, dataTypeClass = Despesa.class) })
 	public ResponseEntity<Despesa> updateDespesaParaPagoByMes(@RequestBody Despesa despesa) {
-		Date data = despesa.getDataCompra();
-		Date dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
-		Date dataFinal = DataHelper.getUltimoDiaDoMes(data);
+		LocalDateTime data = despesa.getDataCompra();
+		LocalDateTime dataInicial = DataHelper.getPrimeiroDiaDoMes(data);
+		LocalDateTime dataFinal = DataHelper.getUltimoDiaDoMes(data);
 
 		List<Despesa> despesas = despesaDao.findByMes(despesa.getUsuario().getKey(), dataInicial, dataFinal);
 

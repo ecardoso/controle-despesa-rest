@@ -1,6 +1,6 @@
 package br.com.controledespesa.repository;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,7 +22,7 @@ public class MelhorDataCompraDao extends GenericDaoImpl<MelhorDataCompra, Long> 
 	private EntityManager entityManager;
 
 	@SuppressWarnings("deprecation")
-	public MelhorDataCompra getMelhorDataCompra(Usuario usuario, FormaPagamento formaPagamento, Date data) {
+	public MelhorDataCompra getMelhorDataCompra(Usuario usuario, FormaPagamento formaPagamento, LocalDateTime data) {
 		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(MelhorDataCompra.class);
 		criteria.add(Restrictions.eq("usuario", usuario));
 		criteria.add(Restrictions.eq("formaPagamento", formaPagamento));
