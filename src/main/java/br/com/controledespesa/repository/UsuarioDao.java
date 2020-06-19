@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import br.com.controledespesa.entity.Usuario;
+import br.com.controledespesa.data.model.Usuario;
 import br.com.controledespesa.enums.TipoLoginEnum;
 
 @Repository

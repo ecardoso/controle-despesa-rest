@@ -1,16 +1,8 @@
-package br.com.controledespesa.entity;
+package br.com.controledespesa.data.vo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 
 import org.springframework.hateoas.ResourceSupport;
 
@@ -22,30 +14,22 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Entity(name = "DESPESA")
-public class Despesa extends ResourceSupport implements Serializable {
+public class DespesaVO extends ResourceSupport implements Serializable {
 
 	private static final long serialVersionUID = 8493198584033763957L;
 
-	@Id
-	@Column(name = "id")
 	@JsonProperty("id")
-	@SequenceGenerator(name = "DESPESA_ID", sequenceName = "DESPESA_SEQUENCE", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DESPESA_ID")
 	@ApiModelProperty(value = "id despesa")
 	private Long key;
 
-	@ManyToOne(targetEntity = Categoria.class)
 	@ApiModelProperty(value = "categoria")
-	private Categoria categoria;
+	private CategoriaVO categoria;
 
-	@ManyToOne(targetEntity = Usuario.class)
 	@ApiModelProperty(value = "usuario")
-	private Usuario usuario;
+	private UsuarioVO usuario;
 
-	@ManyToOne(targetEntity = FormaPagamento.class)
 	@ApiModelProperty(value = "forma de pagamento")
-	private FormaPagamento formaPagamento;
+	private FormaPagamentoVO formaPagamento;
 
 	@ApiModelProperty(value = "data da compra")
 	private LocalDateTime dataCompra;

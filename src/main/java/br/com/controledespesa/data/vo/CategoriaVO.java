@@ -1,13 +1,6 @@
-package br.com.controledespesa.entity;
+package br.com.controledespesa.data.vo;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 
 import org.springframework.hateoas.ResourceSupport;
 
@@ -21,16 +14,11 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Entity(name = "CATEGORIA")
-public class Categoria extends ResourceSupport implements Serializable {
+public class CategoriaVO extends ResourceSupport implements Serializable {
 
 	private static final long serialVersionUID = 553406608346142661L;
 
-	@Id
-	@Column(name = "id")
 	@JsonProperty("id")
-	@SequenceGenerator(name = "CATEGORIA_ID", sequenceName = "CATEGORIA_SEQUENCE", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CATEGORIA_ID")
 	@ApiModelProperty(value = "id categoria")
 	private Long key;
 

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.controledespesa.entity.FormaPagamento;
-import br.com.controledespesa.repository.FormaPagamentoDao;
+import br.com.controledespesa.data.vo.FormaPagamentoVO;
+import br.com.controledespesa.service.FormaPagamentoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,62 +28,62 @@ import io.swagger.annotations.ApiResponses;
 public class FormaPagamentoController {
 
 	@Autowired
-	private FormaPagamentoDao formaPagamentoDao;
+	private FormaPagamentoService formaPagamentoService;
 
 	@GetMapping(value = "/findAllFormaPagamento")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de forma de pagamento"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	public List<FormaPagamento> findAll() {
-		List<FormaPagamento> formasPagamento = formaPagamentoDao.findAll();
-		formasPagamento.stream().forEach(form -> addLinkByFormaPagamento(form));
+	public List<FormaPagamentoVO> findAll() {
+		List<FormaPagamentoVO> formasPagamentoVO = formaPagamentoService.findAll();
+		formasPagamentoVO.stream().forEach(form -> addLinkByFormaPagamento(form));
 
-		return formasPagamento;
+		return formasPagamentoVO;
 	}
 
 	@GetMapping(value = "/getFormaPagamento")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna uma forma de pagamento"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id da forma de pagamento", defaultValue = "1", required = true, dataTypeClass = Long.class) })
-	public FormaPagamento getFormaPagamento(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		FormaPagamento formaPagamento = formaPagamentoDao.getById(id);
-		addLinkByFormaPagamento(formaPagamento);
+	public FormaPagamentoVO getFormaPagamento(@RequestParam(value = "id", defaultValue = "1") Long id) {
+		FormaPagamentoVO formaPagamentoVO = formaPagamentoService.getById(id);
+		addLinkByFormaPagamento(formaPagamentoVO);
 
-		return formaPagamento;
+		return formaPagamentoVO;
 	}
 
 	@PostMapping(value = "/saveFormaPagamento", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "salvar forma de pagamento"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@ApiImplicitParams({ @ApiImplicitParam(name = "formaPagamento", value = "forma de pagamento", required = true, dataTypeClass = FormaPagamento.class) })
-	public FormaPagamento save(@RequestBody FormaPagamento formaPagamento) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "formaPagamento", value = "forma de pagamento", required = true, dataTypeClass = FormaPagamentoVO.class) })
+	public FormaPagamentoVO save(@RequestBody FormaPagamentoVO formaPagamentoVO) {
 
-		if (formaPagamento.getKey() != null) {
-			formaPagamentoDao.update(formaPagamento);
-			return formaPagamento;
+		if (formaPagamentoVO.getKey() != null) {
+			formaPagamentoService.update(formaPagamentoVO);
+			return formaPagamentoVO;
 		}
 
-		formaPagamentoDao.save(formaPagamento);
-		addLinkByFormaPagamento(formaPagamento);
+		formaPagamentoService.save(formaPagamentoVO);
+		addLinkByFormaPagamento(formaPagamentoVO);
 
-		return formaPagamento;
+		return formaPagamentoVO;
 	}
 
 	@DeleteMapping(value = "/deleteFormaPagamento", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar forma de pagamento"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@ApiImplicitParams({ @ApiImplicitParam(name = "formaPagamento", value = "forma de pagamento", required = true, dataTypeClass = FormaPagamento.class) })
-	public ResponseEntity<FormaPagamento> delete(@RequestBody FormaPagamento formaPagamento) {
-		formaPagamentoDao.delete(formaPagamento);
+	@ApiImplicitParams({ @ApiImplicitParam(name = "formaPagamento", value = "forma de pagamento", required = true, dataTypeClass = FormaPagamentoVO.class) })
+	public ResponseEntity<FormaPagamentoVO> delete(@RequestBody FormaPagamentoVO formaPagamentoVO) {
+		formaPagamentoService.delete(formaPagamentoVO);
 
 		return ResponseEntity.ok().build();
 	}
 
-	private void addLinkByFormaPagamento(FormaPagamento formaPagamento) {
-		if (formaPagamento == null) {
+	private void addLinkByFormaPagamento(FormaPagamentoVO formaPagamentoVO) {
+		if (formaPagamentoVO == null) {
 			return;
 		}
 
-		formaPagamento.add(linkTo(methodOn(FormaPagamentoController.class).getFormaPagamento(formaPagamento.getKey())).withRel("get-FormaPagamento"));
+		formaPagamentoVO.add(linkTo(methodOn(FormaPagamentoController.class).getFormaPagamento(formaPagamentoVO.getKey())).withRel("get-FormaPagamento"));
 	}
 
 }

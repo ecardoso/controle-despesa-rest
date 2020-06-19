@@ -10,9 +10,9 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import br.com.controledespesa.entity.FormaPagamento;
-import br.com.controledespesa.entity.MelhorDataCompra;
-import br.com.controledespesa.entity.Usuario;
+import br.com.controledespesa.data.model.MelhorDataCompra;
+import br.com.controledespesa.data.vo.FormaPagamentoVO;
+import br.com.controledespesa.data.vo.UsuarioVO;
 import br.com.controledespesa.helper.DataHelper;
 
 @Repository
@@ -22,10 +22,10 @@ public class MelhorDataCompraDao extends GenericDaoImpl<MelhorDataCompra, Long> 
 	private EntityManager entityManager;
 
 	@SuppressWarnings("deprecation")
-	public MelhorDataCompra getMelhorDataCompra(Usuario usuario, FormaPagamento formaPagamento, LocalDateTime data) {
+	public MelhorDataCompra getMelhorDataCompra(UsuarioVO usuarioVO, FormaPagamentoVO formaPagamentoVO, LocalDateTime data) {
 		Criteria criteria = entityManager.unwrap(Session.class).createCriteria(MelhorDataCompra.class);
-		criteria.add(Restrictions.eq("usuario", usuario));
-		criteria.add(Restrictions.eq("formaPagamento", formaPagamento));
+		criteria.add(Restrictions.eq("usuario.id", usuarioVO.getKey()));
+		criteria.add(Restrictions.eq("formaPagamento.id", formaPagamentoVO.getKey()));
 		criteria.add(Restrictions.between("mesReferencia", DataHelper.getPrimeiroDiaDoMes(data), DataHelper.getUltimoDiaDoMes(data)));
 
 		return (MelhorDataCompra) criteria.uniqueResult();

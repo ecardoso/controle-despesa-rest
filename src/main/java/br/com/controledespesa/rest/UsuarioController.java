@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.controledespesa.entity.Usuario;
+import br.com.controledespesa.data.vo.UsuarioVO;
 import br.com.controledespesa.enums.TipoLoginEnum;
-import br.com.controledespesa.repository.UsuarioDao;
+import br.com.controledespesa.service.UsuarioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,27 +30,27 @@ public class UsuarioController implements Serializable {
 	private static final long serialVersionUID = -3654939268019465862L;
 
 	@Autowired
-	private transient UsuarioDao usuarioDao;
+	private transient UsuarioService usuarioService;
 
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@GetMapping(value = "/findAllUsuario")
-	public List<Usuario> findAll() {
-		List<Usuario> usuarios = usuarioDao.findAll();
-		usuarios.stream().forEach(usu -> addLinkByGetUsuario(usu));
+	public List<UsuarioVO> findAll() {
+		List<UsuarioVO> usuarioVO = usuarioService.findAll();
+		usuarioVO.stream().forEach(usu -> addLinkByGetUsuario(usu));
 
-		return usuarios;
+		return usuarioVO;
 	}
 
 	@GetMapping(value = "/getUsuario")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id usuário", defaultValue = "1", required = true, dataTypeClass = Long.class) })
-	public Usuario getUsuario(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		Usuario usuario = usuarioDao.getById(id);
-		addLinkByGetUsuario(usuario);
+	public UsuarioVO getUsuario(@RequestParam(value = "id", defaultValue = "1") Long id) {
+		UsuarioVO usuarioVO = usuarioService.getById(id);
+		addLinkByGetUsuario(usuarioVO);
 
-		return usuario;
+		return usuarioVO;
 	}
 
 	@GetMapping(value = "/getUsuarioByEmailAndSenha")
@@ -58,51 +58,51 @@ public class UsuarioController implements Serializable {
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "e-mail do usuário", required = true, dataTypeClass = String.class),
 							@ApiImplicitParam(name = "senha", value = "senha do usuário", required = true, dataTypeClass = String.class) })
-	public Usuario getUsuarioByEmailAndSenha(@RequestParam(value = "email") String email, @RequestParam(value = "senha") String senha) {
-		Usuario usuario = usuarioDao.getUsuarioByEmailAndSenha(email, senha, TipoLoginEnum.SISTEMA);
-		addLinkByGetUsuario(usuario);
+	public UsuarioVO getUsuarioByEmailAndSenha(@RequestParam(value = "email") String email, @RequestParam(value = "senha") String senha) {
+		UsuarioVO usuarioVO = usuarioService.getUsuarioByEmailAndSenhaAndTipoLogin(email, senha, TipoLoginEnum.SISTEMA);
+		addLinkByGetUsuario(usuarioVO);
 
-		return usuario;
+		return usuarioVO;
 	}
 
 	@GetMapping(value = "/getUsuarioByEmail")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "e-mail do usuário", required = true, dataTypeClass = String.class) })
-	public Usuario getUsuarioByEmail(@RequestParam(value = "email") String email) {
-		Usuario usuario = usuarioDao.getUsuarioByEmail(email, TipoLoginEnum.SISTEMA);
-		addLinkByGetUsuarioAndEmail(usuario);
+	public UsuarioVO getUsuarioByEmail(@RequestParam(value = "email") String email) {
+		UsuarioVO usuarioVO = usuarioService.getUsuarioByEmailAndTipoLoginEnum(email, TipoLoginEnum.SISTEMA);
+		addLinkByGetUsuarioAndEmail(usuarioVO);
 
-		return usuario;
+		return usuarioVO;
 	}
 
 	@PostMapping(value = "/saveUsuario", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "salvar usuário"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@ApiImplicitParams({ @ApiImplicitParam(name = "usuario", value = "usuario", required = true, dataTypeClass = Usuario.class) })
-	public Usuario save(@RequestBody Usuario usuario) {
-		usuario.setTipoLogin(TipoLoginEnum.SISTEMA.getChave());
-		usuarioDao.save(usuario);
-		addLinkByGetUsuarioAndEmail(usuario);
+	@ApiImplicitParams({ @ApiImplicitParam(name = "usuario", value = "usuario", required = true, dataTypeClass = UsuarioVO.class) })
+	public UsuarioVO save(@RequestBody UsuarioVO usuarioVO) {
+		usuarioVO.setTipoLogin(TipoLoginEnum.SISTEMA.getChave());
+		usuarioService.save(usuarioVO);
 
-		return usuario;
+		addLinkByGetUsuarioAndEmail(usuarioVO);
+		return usuarioVO;
 	}
 
-	private void addLinkByGetUsuario(Usuario usuario) {
-		if (usuario == null) {
+	private void addLinkByGetUsuario(UsuarioVO usuarioVO) {
+		if (usuarioVO == null) {
 			return;
 		}
 
-		usuario.add(linkTo(methodOn(UsuarioController.class).getUsuario(usuario.getKey())).withSelfRel());
+		usuarioVO.add(linkTo(methodOn(UsuarioController.class).getUsuario(usuarioVO.getKey())).withSelfRel());
 	}
 
-	private void addLinkByGetUsuarioAndEmail(Usuario usuario) {
-		if (usuario == null) {
+	private void addLinkByGetUsuarioAndEmail(UsuarioVO usuarioVO) {
+		if (usuarioVO == null) {
 			return;
 		}
 
-		addLinkByGetUsuario(usuario);
-		usuario.add(linkTo(methodOn(UsuarioController.class).getUsuarioByEmail(usuario.getEmail())).withRel("get-Usuario"));
+		addLinkByGetUsuario(usuarioVO);
+		usuarioVO.add(linkTo(methodOn(UsuarioController.class).getUsuarioByEmail(usuarioVO.getEmail())).withRel("get-Usuario"));
 	}
 
 }

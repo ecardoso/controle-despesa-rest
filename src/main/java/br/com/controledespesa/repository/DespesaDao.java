@@ -12,7 +12,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import br.com.controledespesa.entity.Despesa;
+import br.com.controledespesa.data.model.Despesa;
 
 @Repository
 public class DespesaDao extends GenericDaoImpl<Despesa, Long> {

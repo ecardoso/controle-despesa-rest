@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.controledespesa.entity.Categoria;
-import br.com.controledespesa.repository.CategoriaDao;
+import br.com.controledespesa.data.vo.CategoriaVO;
+import br.com.controledespesa.service.CategoriaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,46 +26,46 @@ import io.swagger.annotations.ApiResponses;
 public class CategoriaController {
 
 	@Autowired
-	private CategoriaDao categoriaDao;
+	private CategoriaService categoriaService;
 
 	@GetMapping(value = "/findAllCategoria")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de categoria"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	public List<Categoria> findAll() {
-		List<Categoria> categorias = categoriaDao.findAll();
-		categorias.stream().forEach(categ -> addLinkByGetCategoria(categ));
+	public List<CategoriaVO> findAll() {
+		List<CategoriaVO> categoriaVO = categoriaService.findAll();
+		categoriaVO.stream().forEach(categ -> addLinkByGetCategoria(categ));
 
-		return categorias;
+		return categoriaVO;
 	}
 
 	@GetMapping(value = "/getCategoria")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna uma categoria"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id da categoria", defaultValue = "1", required = true, dataTypeClass = Long.class) })
-	public Categoria getCategoria(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		Categoria categoria = categoriaDao.getById(id);
-		addLinkByGetCategoria(categoria);
+	public CategoriaVO getCategoria(@RequestParam(value = "id", defaultValue = "1") Long id) {
+		CategoriaVO categoriaVO = categoriaService.getById(id);
+		addLinkByGetCategoria(categoriaVO);
 
-		return categoria;
+		return categoriaVO;
 	}
 
 	@PostMapping(value = "/saveCategoria", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "salvar categoria"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@ApiImplicitParams({ @ApiImplicitParam(name = "categoria", value = "categoria", required = true, dataTypeClass = Categoria.class) })
-	public Categoria save(@RequestBody Categoria categoria) {
-		categoriaDao.save(categoria);
-		addLinkByGetCategoria(categoria);
+	@ApiImplicitParams({ @ApiImplicitParam(name = "categoria", value = "categoria", required = true, dataTypeClass = CategoriaVO.class) })
+	public CategoriaVO save(@RequestBody CategoriaVO categoriaVO) {
+		categoriaService.save(categoriaVO);
+		addLinkByGetCategoria(categoriaVO);
 
-		return categoria;
+		return categoriaVO;
 	}
 
-	private void addLinkByGetCategoria(Categoria categoria) {
-		if (categoria == null) {
+	private void addLinkByGetCategoria(CategoriaVO categoriaVO) {
+		if (categoriaVO == null) {
 			return;
 		}
 
-		categoria.add(linkTo(methodOn(CategoriaController.class).getCategoria(categoria.getKey())).withRel("get-Categoria"));
+		categoriaVO.add(linkTo(methodOn(CategoriaController.class).getCategoria(categoriaVO.getKey())).withRel("get-Categoria"));
 	}
 
 }

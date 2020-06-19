@@ -84,6 +84,13 @@
 		    <artifactId>lombok</artifactId>		    
 		    <scope>provided</scope>
 		</dependency>
+		
+		<!-- for Model Mapper support -->
+        <dependency>
+		    <groupId>com.github.dozermapper</groupId>
+		    <artifactId>dozer-core</artifactId>
+		    <version>6.4.1</version>
+		</dependency>
 
 	</dependencies>
 

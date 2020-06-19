@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.controledespesa.entity.MelhorDataCompra;
-import br.com.controledespesa.repository.MelhorDataCompraDao;
+import br.com.controledespesa.data.vo.MelhorDataCompraVO;
+import br.com.controledespesa.service.MelhorDataCompraService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,63 +28,63 @@ import io.swagger.annotations.ApiResponses;
 public class MelhorDataCompraController {
 
 	@Autowired
-	private MelhorDataCompraDao melhorDataCompraDao;
+	private MelhorDataCompraService melhorDataCompraService;
 
 	@GetMapping(value = "/findAllMelhorDataCompra")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de melhor data de compra"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	public List<MelhorDataCompra> findAll() {
-		List<MelhorDataCompra> melhoresDataCompra = melhorDataCompraDao.findAll();
-		melhoresDataCompra.stream().forEach(dtCompra -> addLinkByMelhorDataCompra(dtCompra));
+	public List<MelhorDataCompraVO> findAll() {
+		List<MelhorDataCompraVO> melhoresDataCompraVO = melhorDataCompraService.findAll();
+		melhoresDataCompraVO.stream().forEach(dtCompra -> addLinkByMelhorDataCompra(dtCompra));
 
-		return melhoresDataCompra;
+		return melhoresDataCompraVO;
 	}
 
 	@GetMapping(value = "/getMelhorDataCompra")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna uma melhor data de compra"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "id", value = "id da melhor data de compra", defaultValue = "1", required = true, dataTypeClass = Long.class) })
-	public MelhorDataCompra getMelhorDataCompra(@RequestParam(value = "id", defaultValue = "1") Long id) {
-		MelhorDataCompra melhorDataCompra = melhorDataCompraDao.getById(id);
-		addLinkByMelhorDataCompra(melhorDataCompra);
+	public MelhorDataCompraVO getMelhorDataCompra(@RequestParam(value = "id", defaultValue = "1") Long id) {
+		MelhorDataCompraVO melhorDataCompraVO = melhorDataCompraService.getById(id);
+		addLinkByMelhorDataCompra(melhorDataCompraVO);
 
-		return melhorDataCompra;
+		return melhorDataCompraVO;
 	}
 
 	@PostMapping(value = "/saveMelhorDataCompra", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "saçlvar melhor data de compra"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@ApiImplicitParams({ @ApiImplicitParam(name = "melhorDataCompra", value = "melhor data de compra", required = true, dataTypeClass = MelhorDataCompra.class) })
-	public MelhorDataCompra save(@RequestBody MelhorDataCompra melhorDataCompra) {
-		if (melhorDataCompra.getKey() == null) {
-			melhorDataCompraDao.save(melhorDataCompra);
+	@ApiImplicitParams({ @ApiImplicitParam(name = "melhorDataCompra", value = "melhor data de compra", required = true, dataTypeClass = MelhorDataCompraVO.class) })
+	public MelhorDataCompraVO save(@RequestBody MelhorDataCompraVO melhorDataCompraVO) {
+		if (melhorDataCompraVO.getKey() == null) {
+			melhorDataCompraService.save(melhorDataCompraVO);
 		} else {
-			melhorDataCompraDao.update(melhorDataCompra);
+			melhorDataCompraService.update(melhorDataCompraVO);
 		}
 
-		addLinkByMelhorDataCompra(melhorDataCompra);
+		addLinkByMelhorDataCompra(melhorDataCompraVO);
 
-		return melhorDataCompra;
+		return melhorDataCompraVO;
 	}
 
 	@DeleteMapping(value = "/deleteMelhorDataCompra", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "deletar melhor data de compra"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@ApiImplicitParams({ @ApiImplicitParam(name = "melhorDataCompra", value = "melhor data de compra", required = true, dataTypeClass = MelhorDataCompra.class) })
-	public ResponseEntity<MelhorDataCompra> delete(@RequestBody MelhorDataCompra melhorDataCompra) {
-		melhorDataCompraDao.delete(melhorDataCompra);
+	@ApiImplicitParams({ @ApiImplicitParam(name = "melhorDataCompra", value = "melhor data de compra", required = true, dataTypeClass = MelhorDataCompraVO.class) })
+	public ResponseEntity<MelhorDataCompraVO> delete(@RequestBody MelhorDataCompraVO melhorDataCompraVO) {
+		melhorDataCompraService.delete(melhorDataCompraVO);
 
 		return ResponseEntity.ok().build();
 	}
 
-	private void addLinkByMelhorDataCompra(MelhorDataCompra melhorDataCompra) {
-		if (melhorDataCompra == null) {
+	private void addLinkByMelhorDataCompra(MelhorDataCompraVO melhorDataCompraVO) {
+		if (melhorDataCompraVO == null) {
 			return;
 		}
 
-		melhorDataCompra.add(linkTo(methodOn(MelhorDataCompraController.class).getMelhorDataCompra(melhorDataCompra.getKey())).withRel("get-MelhorDataCompra"));
-		melhorDataCompra.add(linkTo(methodOn(FormaPagamentoController.class).getFormaPagamento(melhorDataCompra.getFormaPagamento().getKey())).withRel("get-FormaPagamento"));
-		melhorDataCompra.add(linkTo(methodOn(UsuarioController.class).getUsuario(melhorDataCompra.getUsuario().getKey())).withRel("get-Usuario"));
+		melhorDataCompraVO.add(linkTo(methodOn(MelhorDataCompraController.class).getMelhorDataCompra(melhorDataCompraVO.getKey())).withRel("get-MelhorDataCompra"));
+		melhorDataCompraVO.add(linkTo(methodOn(FormaPagamentoController.class).getFormaPagamento(melhorDataCompraVO.getFormaPagamento().getKey())).withRel("get-FormaPagamento"));
+		melhorDataCompraVO.add(linkTo(methodOn(UsuarioController.class).getUsuario(melhorDataCompraVO.getUsuario().getKey())).withRel("get-Usuario"));
 	}
 
 }
