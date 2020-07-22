@@ -8,38 +8,31 @@ import org.springframework.stereotype.Service;
 import br.com.controledespesa.converter.DozerConverter;
 import br.com.controledespesa.data.model.Categoria;
 import br.com.controledespesa.data.vo.CategoriaVO;
-import br.com.controledespesa.repository.CategoriaDao;
+import br.com.controledespesa.repository.CategoriaRepository;
 
 @Service
 public class CategoriaService {
 
 	@Autowired
-	private CategoriaDao categoriaDao;
+	private CategoriaRepository categoriaRepository;
 
 	public List<CategoriaVO> findAll() {
-		return DozerConverter.parseListObjects(categoriaDao.findAll(), CategoriaVO.class);
+		return DozerConverter.parseListObjects(categoriaRepository.findAll(), CategoriaVO.class);
 	}
 
 	public CategoriaVO getById(Long id) {
-		return DozerConverter.parseObject(categoriaDao.getById(id), CategoriaVO.class);
+		return DozerConverter.parseObject(categoriaRepository.findById(id), CategoriaVO.class);
 	}
 
 	public CategoriaVO save(CategoriaVO categoriaVO) {
 		Categoria entity = DozerConverter.parseObject(categoriaVO, Categoria.class);
-		categoriaDao.save(entity);
-
-		return DozerConverter.parseObject(entity, CategoriaVO.class);
-	}
-
-	public CategoriaVO update(CategoriaVO categoriaVO) {
-		Categoria entity = DozerConverter.parseObject(categoriaVO, Categoria.class);
-		categoriaDao.update(entity);
+		categoriaRepository.save(entity);
 
 		return DozerConverter.parseObject(entity, CategoriaVO.class);
 	}
 
 	public void delete(CategoriaVO categoriaVO) {
 		Categoria entity = DozerConverter.parseObject(categoriaVO, Categoria.class);
-		categoriaDao.delete(entity);
+		categoriaRepository.delete(entity);
 	}
 }

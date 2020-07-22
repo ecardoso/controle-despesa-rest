@@ -9,42 +9,42 @@ import br.com.controledespesa.converter.DozerConverter;
 import br.com.controledespesa.data.model.Usuario;
 import br.com.controledespesa.data.vo.UsuarioVO;
 import br.com.controledespesa.enums.TipoLoginEnum;
-import br.com.controledespesa.repository.UsuarioDao;
+import br.com.controledespesa.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
 
 	@Autowired
-	private UsuarioDao usuarioDao;
+	private UsuarioRepository usuarioRepository;
 
 	public List<UsuarioVO> findAll() {
-		return DozerConverter.parseListObjects(usuarioDao.findAll(), UsuarioVO.class);
+		return DozerConverter.parseListObjects(usuarioRepository.findAll(), UsuarioVO.class);
 	}
 
 	public UsuarioVO getById(Long id) {
-		return DozerConverter.parseObject(usuarioDao.getById(id), UsuarioVO.class);
+		return DozerConverter.parseObject(usuarioRepository.findById(id), UsuarioVO.class);
 	}
 
 	public UsuarioVO getUsuarioByEmailAndSenha(String email, String senha) {
-		return DozerConverter.parseObject(usuarioDao.getUsuarioByEmailAndSenha(email, senha, TipoLoginEnum.SISTEMA), UsuarioVO.class);
+		return DozerConverter.parseObject(usuarioRepository.getUsuarioByEmailAndSenha(email, senha, TipoLoginEnum.SISTEMA.getChave()), UsuarioVO.class);
 	}
 
 	public UsuarioVO getUsuarioByEmailAndSenhaAndTipoLogin(String email, String senha, TipoLoginEnum tipoLoginEnum) {
-		return DozerConverter.parseObject(usuarioDao.getUsuarioByEmailAndSenha(email, senha, tipoLoginEnum), UsuarioVO.class);
+		return DozerConverter.parseObject(usuarioRepository.getUsuarioByEmailAndSenha(email, senha, tipoLoginEnum.getChave()), UsuarioVO.class);
 	}
 
 	public UsuarioVO getUsuarioByEmail(String email) {
-		return DozerConverter.parseObject(usuarioDao.getUsuarioByEmail(email, TipoLoginEnum.SISTEMA), UsuarioVO.class);
+		return DozerConverter.parseObject(usuarioRepository.getUsuarioByEmail(email, TipoLoginEnum.SISTEMA.getChave()), UsuarioVO.class);
 	}
 
 	public UsuarioVO getUsuarioByEmailAndTipoLoginEnum(String email, TipoLoginEnum tipoLoginEnum) {
-		return DozerConverter.parseObject(usuarioDao.getUsuarioByEmail(email, tipoLoginEnum), UsuarioVO.class);
+		return DozerConverter.parseObject(usuarioRepository.getUsuarioByEmail(email, tipoLoginEnum.getChave()), UsuarioVO.class);
 	}
 
 	public UsuarioVO save(UsuarioVO usuarioVO) {
 		Usuario entity = DozerConverter.parseObject(usuarioVO, Usuario.class);
 		entity.setTipoLogin(TipoLoginEnum.SISTEMA.getChave());
-		usuarioDao.save(entity);
+		usuarioRepository.save(entity);
 
 		return DozerConverter.parseObject(entity, UsuarioVO.class);
 	}

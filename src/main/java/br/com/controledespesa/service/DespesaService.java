@@ -9,46 +9,39 @@ import org.springframework.stereotype.Service;
 import br.com.controledespesa.converter.DozerConverter;
 import br.com.controledespesa.data.model.Despesa;
 import br.com.controledespesa.data.vo.DespesaVO;
-import br.com.controledespesa.repository.DespesaDao;
+import br.com.controledespesa.repository.DespesaRepository;
 
 @Service
 public class DespesaService {
 
 	@Autowired
-	private DespesaDao despesaDao;
+	private DespesaRepository despesaRepository;
 
 	public List<DespesaVO> findAll() {
-		return DozerConverter.parseListObjects(despesaDao.findAll(), DespesaVO.class);
+		return DozerConverter.parseListObjects(despesaRepository.findAll(), DespesaVO.class);
 	}
 
 	public DespesaVO getById(Long id) {
-		return DozerConverter.parseObject(despesaDao.getById(id), DespesaVO.class);
+		return DozerConverter.parseObject(despesaRepository.findById(id), DespesaVO.class);
 	}
 
 	public List<DespesaVO> findByMes(Long idUsuario, LocalDateTime dataInicial, LocalDateTime dataFinal) {
-		return DozerConverter.parseListObjects(despesaDao.findByMes(idUsuario, dataInicial, dataFinal), DespesaVO.class);
+		return DozerConverter.parseListObjects(despesaRepository.findByMes(idUsuario, dataInicial, dataFinal), DespesaVO.class);
 	}
 
 	public List<DespesaVO> findByMesFormaPagamento(Long idUsuario, Long idFormaPagamento, LocalDateTime dataInicial, LocalDateTime dataFinal) {
-		return DozerConverter.parseListObjects(despesaDao.findByMesFormaPagamento(idUsuario, idFormaPagamento, dataInicial, dataFinal), DespesaVO.class);
+		return DozerConverter.parseListObjects(despesaRepository.findByMesFormaPagamento(idUsuario, idFormaPagamento, dataInicial, dataFinal), DespesaVO.class);
 	}
 
 	public DespesaVO save(DespesaVO despesaVO) {
 		Despesa entity = DozerConverter.parseObject(despesaVO, Despesa.class);
-		despesaDao.save(entity);
-
-		return DozerConverter.parseObject(entity, DespesaVO.class);
-	}
-
-	public DespesaVO update(DespesaVO despesaVO) {
-		Despesa entity = DozerConverter.parseObject(despesaVO, Despesa.class);
-		despesaDao.update(entity);
+		despesaRepository.save(entity);
 
 		return DozerConverter.parseObject(entity, DespesaVO.class);
 	}
 
 	public void delete(DespesaVO despesaVO) {
 		Despesa entity = DozerConverter.parseObject(despesaVO, Despesa.class);
-		despesaDao.delete(entity);
+		despesaRepository.delete(entity);
 	}
 }

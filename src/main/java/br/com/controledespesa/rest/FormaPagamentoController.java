@@ -58,7 +58,7 @@ public class FormaPagamentoController {
 	public FormaPagamentoVO save(@RequestBody FormaPagamentoVO formaPagamentoVO) {
 
 		if (formaPagamentoVO.getKey() != null) {
-			formaPagamentoService.update(formaPagamentoVO);
+			formaPagamentoService.save(formaPagamentoVO);
 			return formaPagamentoVO;
 		}
 

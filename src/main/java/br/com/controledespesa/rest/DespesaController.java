@@ -114,7 +114,7 @@ public class DespesaController implements Serializable {
 				despesaVO.setDataPagamento(despesaVO.getDataCompra());
 			}
 
-			return despesaService.update(despesaVO);
+			return despesaService.save(despesaVO);
 		}
 
 		int quantidadeParcelas = despesaVO.getQuantidadeParcelas();
@@ -178,7 +178,7 @@ public class DespesaController implements Serializable {
 
 			if (!value.isPago()) {
 				value.setPago(true);
-				despesaService.update(value);
+				despesaService.save(value);
 			}
 		}
 

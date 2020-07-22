@@ -8,39 +8,32 @@ import org.springframework.stereotype.Service;
 import br.com.controledespesa.converter.DozerConverter;
 import br.com.controledespesa.data.model.FormaPagamento;
 import br.com.controledespesa.data.vo.FormaPagamentoVO;
-import br.com.controledespesa.repository.FormaPagamentoDao;
+import br.com.controledespesa.repository.FormaPagamentoRepository;
 
 @Service
 public class FormaPagamentoService {
 
 	@Autowired
-	private FormaPagamentoDao formaPagamentoDao;
+	private FormaPagamentoRepository formaPagamentoRepository;
 
 	public List<FormaPagamentoVO> findAll() {
-		return DozerConverter.parseListObjects(formaPagamentoDao.findAll(), FormaPagamentoVO.class);
+		return DozerConverter.parseListObjects(formaPagamentoRepository.findAll(), FormaPagamentoVO.class);
 	}
 
 	public FormaPagamentoVO getById(Long id) {
-		return DozerConverter.parseObject(formaPagamentoDao.getById(id), FormaPagamentoVO.class);
+		return DozerConverter.parseObject(formaPagamentoRepository.findById(id), FormaPagamentoVO.class);
 	}
 
 	public FormaPagamentoVO save(FormaPagamentoVO formaPagamentoVO) {
 		FormaPagamento entity = DozerConverter.parseObject(formaPagamentoVO, FormaPagamento.class);
-		formaPagamentoDao.save(entity);
-
-		return DozerConverter.parseObject(entity, FormaPagamentoVO.class);
-	}
-
-	public FormaPagamentoVO update(FormaPagamentoVO formaPagamentoVO) {
-		FormaPagamento entity = DozerConverter.parseObject(formaPagamentoVO, FormaPagamento.class);
-		formaPagamentoDao.update(entity);
+		formaPagamentoRepository.save(entity);
 
 		return DozerConverter.parseObject(entity, FormaPagamentoVO.class);
 	}
 
 	public void delete(FormaPagamentoVO formaPagamentoVO) {
 		FormaPagamento entity = DozerConverter.parseObject(formaPagamentoVO, FormaPagamento.class);
-		formaPagamentoDao.delete(entity);
+		formaPagamentoRepository.delete(entity);
 	}
 
 }

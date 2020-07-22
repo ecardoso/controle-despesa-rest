@@ -56,12 +56,7 @@ public class MelhorDataCompraController {
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@ApiImplicitParams({ @ApiImplicitParam(name = "melhorDataCompra", value = "melhor data de compra", required = true, dataTypeClass = MelhorDataCompraVO.class) })
 	public MelhorDataCompraVO save(@RequestBody MelhorDataCompraVO melhorDataCompraVO) {
-		if (melhorDataCompraVO.getKey() == null) {
-			melhorDataCompraService.save(melhorDataCompraVO);
-		} else {
-			melhorDataCompraService.update(melhorDataCompraVO);
-		}
-
+		melhorDataCompraService.save(melhorDataCompraVO);
 		addLinkByMelhorDataCompra(melhorDataCompraVO);
 
 		return melhorDataCompraVO;
