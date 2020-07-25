@@ -3,6 +3,7 @@ package br.com.controledespesa.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.controledespesa.converter.DozerConverter;
@@ -17,7 +18,7 @@ public class FormaPagamentoService {
 	private FormaPagamentoRepository formaPagamentoRepository;
 
 	public List<FormaPagamentoVO> findAll() {
-		return DozerConverter.parseListObjects(formaPagamentoRepository.findAll(), FormaPagamentoVO.class);
+		return DozerConverter.parseListObjects(formaPagamentoRepository.findAll(Sort.by(Sort.Direction.ASC, "descricao")), FormaPagamentoVO.class);
 	}
 
 	public FormaPagamentoVO getById(Long id) {
