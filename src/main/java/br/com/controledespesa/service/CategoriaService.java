@@ -3,6 +3,7 @@ package br.com.controledespesa.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.controledespesa.converter.DozerConverter;
@@ -17,7 +18,7 @@ public class CategoriaService {
 	private CategoriaRepository categoriaRepository;
 
 	public List<CategoriaVO> findAll() {
-		return DozerConverter.parseListObjects(categoriaRepository.findAll(), CategoriaVO.class);
+		return DozerConverter.parseListObjects(categoriaRepository.findAll(Sort.by(Sort.Direction.ASC, "descricao")), CategoriaVO.class);
 	}
 
 	public CategoriaVO getById(Long id) {
