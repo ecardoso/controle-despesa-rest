@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
@@ -24,6 +25,8 @@ public class Categoria implements Serializable {
 	@SequenceGenerator(name = "CATEGORIA_ID", sequenceName = "CATEGORIA_SEQUENCE", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CATEGORIA_ID")
 	private Long key;
+
+	@OrderBy
 	private String descricao;
 
 }
