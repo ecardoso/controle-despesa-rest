@@ -37,13 +37,12 @@ public class CategoriaController {
 
 		return categoriaVO;
 	}
-	
-	
+
 	@GetMapping(value = "/findTeste")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de teste"), @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 							@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	public String findTeste() {
-		return "Sucesso - OK";
+		return "Sucesso - OK ";
 	}
 
 	@GetMapping(value = "/getCategoria")
