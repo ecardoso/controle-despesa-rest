@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 public class GoogleAuthenticator {
+	
 
 	private static final Logger logger = LoggerFactory.getLogger(GoogleAuthenticator.class);
 
